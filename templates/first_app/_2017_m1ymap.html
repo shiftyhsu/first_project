@@ -1,0 +1,2381 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script>L_PREFER_CANVAS = false; L_NO_TOUCH = false; L_DISABLE_3D = false;</script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.2.0/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://rawgit.com/python-visualization/folium/master/folium/templates/leaflet.awesome.rotate.css"/>
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 00;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+
+            <style> #map_43c03caa13f14012b939b75db6c7b996 {
+                position : relative;
+                width : 80.0%;
+                height: 65.0%;
+                left: 9.5%;
+                top: 20%
+                bottom:10%;
+                }
+            </style>
+
+</head>
+<body>
+  <nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+      <ul class="nav navbar-nav">
+        <li><a class='navbar-brand' href="{% url 'index' %}">Shifty作品集<br>首頁</a></li>
+        <li><a class='navbar-link' href="{% url 'other' %}">KNN-Cosine電影<br>推薦可視化呈現</a></li>
+        <li><a class='navbar-link' href="{% url 'hyper' %}">供應鍊關聯式<br>分析可視化</a></li>
+        <li><a class='navbar-link'  href="{% url 'folium' %}">Folium地圖<br>可視化呈現<br>-主要市場分類</a></li>
+        <li><a class='navbar-link'  href="{% url 'form_view' %}">表格上傳</a></li>
+        <li><a class='navbar-link'  href="{% url 'register' %}">註冊</a></li>
+        <li><a class='navbar-link' href='http://127.0.0.1:8080/admin/login/?next=/admin/'>系統管理員</a></li>
+        {% if user.is_authenticated %}
+          <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% else %}
+          <li><a class="navbar-link" href="{% url 'first_app:user_login' %}">Login</a></li>
+        {% endif %}
+
+      </ul>
+    <div class="container">
+  </nav>
+  <div class="container"><h2>Markets' Category for Paper Production</h2></div>
+</body>
+<body>
+     <div style='position: fixed;
+     bottom: 32px; left: 125px; width: 200px; height: 160px;
+     border:2px solid grey; z-index:9999; font-size:16px;
+     '>&nbsp; <b>全球市場概況</b> <br>
+     &nbsp; 高成長潛力市場        &nbsp; <i class='fa fa-map-marker fa-2x'
+                  style='color:green'></i><br>
+     &nbsp; 高進口量低成長市場 &nbsp; <i class='fa fa-map-marker fa-2x'
+                  style='color:red'></i><br>
+     &nbsp; 高進口量高成長市場 &nbsp; <i class='fa fa-map-marker fa-2x'
+                  style='color:#3186cc'></i><br>
+     &nbsp; 其他重要市場            &nbsp; <i class='fa fa-map-marker fa-2x'
+                  style='color:gray'></i><br>
+     </div>
+
+
+            <div class="folium-map" id="map_43c03caa13f14012b939b75db6c7b996" ></div>
+
+</body>
+<script>
+
+
+
+                var bounds = null;
+
+
+            var map_43c03caa13f14012b939b75db6c7b996 = L.map(
+                                  'map_43c03caa13f14012b939b75db6c7b996',
+                                  {center: [20,0],
+                                  zoom: 2,
+                                  maxBounds: bounds,
+                                  layers: [],
+                                  worldCopyJump: false,
+                                  crs: L.CRS.EPSG3857
+                                 });
+
+
+
+            var tile_layer_a7607643123540499706d20b5279714e = L.tileLayer(
+                'https://{s}.tiles.mapbox.com/v3/mapbox.world-bright/{z}/{x}/{y}.png',
+                {
+  "attribution": null,
+  "detectRetina": false,
+  "maxZoom": 18,
+  "minZoom": 1,
+  "noWrap": false,
+  "subdomains": "abc"
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+            var circle_9ca30a1902d24a9fb92010c8fe18a577 = L.circle(
+                [52.35,4.916667],
+                {
+  "bubblingMouseEvents": true,
+  "color": "#3186cc",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "#3186cc",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "161273.206857",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_0f3ea97321bb4b6f86e2bcde94d03ad7 = L.popup({maxWidth: '300'});
+
+
+                var html_acb7552a93c440eaac107c4409c2c252 = $('<div id="html_acb7552a93c440eaac107c4409c2c252" style="width: 100.0%; height: 100.0%;">荷蘭</div>')[0];
+                popup_0f3ea97321bb4b6f86e2bcde94d03ad7.setContent(html_acb7552a93c440eaac107c4409c2c252);
+
+
+            circle_9ca30a1902d24a9fb92010c8fe18a577.bindPopup(popup_0f3ea97321bb4b6f86e2bcde94d03ad7);
+
+
+
+
+
+            var circle_e43f6ee504e14348b3812e4030f976d5 = L.circle(
+                [52.5166666667,13.4],
+                {
+  "bubblingMouseEvents": true,
+  "color": "red",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "red",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "154637.181008",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_4d78fbf682c4425682039720c29a4cef = L.popup({maxWidth: '300'});
+
+
+                var html_13a0d34f761a4655a1dffddec03466c9 = $('<div id="html_13a0d34f761a4655a1dffddec03466c9" style="width: 100.0%; height: 100.0%;">德國</div>')[0];
+                popup_4d78fbf682c4425682039720c29a4cef.setContent(html_13a0d34f761a4655a1dffddec03466c9);
+
+
+            circle_e43f6ee504e14348b3812e4030f976d5.bindPopup(popup_4d78fbf682c4425682039720c29a4cef);
+
+
+
+
+
+            var circle_eb823a051c44422bb05d64f1f232fa0a = L.circle(
+                [52.25,21.0],
+                {
+  "bubblingMouseEvents": true,
+  "color": "#3186cc",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "#3186cc",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "124628.790815",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_96706995020840c093613823c7dc3a97 = L.popup({maxWidth: '300'});
+
+
+                var html_f8e952671a4f4ee49493bd140c8ac6f0 = $('<div id="html_f8e952671a4f4ee49493bd140c8ac6f0" style="width: 100.0%; height: 100.0%;">波蘭</div>')[0];
+                popup_96706995020840c093613823c7dc3a97.setContent(html_f8e952671a4f4ee49493bd140c8ac6f0);
+
+
+            circle_eb823a051c44422bb05d64f1f232fa0a.bindPopup(popup_96706995020840c093613823c7dc3a97);
+
+
+
+
+
+            var circle_158797c49eb14508816fdc4c342bbc01 = L.circle(
+                [38.883333,-77.0],
+                {
+  "bubblingMouseEvents": true,
+  "color": "red",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "red",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "119680.146641",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_a936596616b24f9a9485ec4fc92e5e66 = L.popup({maxWidth: '300'});
+
+
+                var html_5f6c611cb2774cf89656361869421ba5 = $('<div id="html_5f6c611cb2774cf89656361869421ba5" style="width: 100.0%; height: 100.0%;">美國</div>')[0];
+                popup_a936596616b24f9a9485ec4fc92e5e66.setContent(html_5f6c611cb2774cf89656361869421ba5);
+
+
+            circle_158797c49eb14508816fdc4c342bbc01.bindPopup(popup_a936596616b24f9a9485ec4fc92e5e66);
+
+
+
+
+
+            var circle_0a57b6ee67a744c4916a2d43f46881f0 = L.circle(
+                [51.5,-0.083333],
+                {
+  "bubblingMouseEvents": true,
+  "color": "#3186cc",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "#3186cc",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "108166.143039",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_d86c83bfed1d42b188585d3826518dff = L.popup({maxWidth: '300'});
+
+
+                var html_4b95609533644699a7ba02cde6408adf = $('<div id="html_4b95609533644699a7ba02cde6408adf" style="width: 100.0%; height: 100.0%;">英國</div>')[0];
+                popup_d86c83bfed1d42b188585d3826518dff.setContent(html_4b95609533644699a7ba02cde6408adf);
+
+
+            circle_0a57b6ee67a744c4916a2d43f46881f0.bindPopup(popup_d86c83bfed1d42b188585d3826518dff);
+
+
+
+
+
+            var circle_0dfdd7a29f9542f3afb78da49afb098b = L.circle(
+                [48.8666666667,2.333333],
+                {
+  "bubblingMouseEvents": true,
+  "color": "red",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "red",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "104771.792483",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_82a5ed2e4bdc4be99878f55cc7f5cb27 = L.popup({maxWidth: '300'});
+
+
+                var html_ab57698c834b4f4699f31b74c8c61a2e = $('<div id="html_ab57698c834b4f4699f31b74c8c61a2e" style="width: 100.0%; height: 100.0%;">法國</div>')[0];
+                popup_82a5ed2e4bdc4be99878f55cc7f5cb27.setContent(html_ab57698c834b4f4699f31b74c8c61a2e);
+
+
+            circle_0dfdd7a29f9542f3afb78da49afb098b.bindPopup(popup_82a5ed2e4bdc4be99878f55cc7f5cb27);
+
+
+
+
+
+            var circle_074a9e9b163c42f0b79cee462aff2e66 = L.circle(
+                [59.3333333333,18.05],
+                {
+  "bubblingMouseEvents": true,
+  "color": "red",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "red",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "104448.445417",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_84a3b737458c44a49305d40a29f4b9aa = L.popup({maxWidth: '300'});
+
+
+                var html_15672abdee9445faaa412bc3a2419abc = $('<div id="html_15672abdee9445faaa412bc3a2419abc" style="width: 100.0%; height: 100.0%;">瑞典</div>')[0];
+                popup_84a3b737458c44a49305d40a29f4b9aa.setContent(html_15672abdee9445faaa412bc3a2419abc);
+
+
+            circle_074a9e9b163c42f0b79cee462aff2e66.bindPopup(popup_84a3b737458c44a49305d40a29f4b9aa);
+
+
+
+
+
+            var circle_c7cdaccb827a4abd86fdf06ff5bdb843 = L.circle(
+                [25.0333333333,121.516667],
+                {
+  "bubblingMouseEvents": true,
+  "color": "red",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "red",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "101367.914056",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_416dde636d5b4d399a85bdad12ad8130 = L.popup({maxWidth: '300'});
+
+
+                var html_ca4b68e308b84c309f00ad1e15b7ec37 = $('<div id="html_ca4b68e308b84c309f00ad1e15b7ec37" style="width: 100.0%; height: 100.0%;">台灣</div>')[0];
+                popup_416dde636d5b4d399a85bdad12ad8130.setContent(html_ca4b68e308b84c309f00ad1e15b7ec37);
+
+
+            circle_c7cdaccb827a4abd86fdf06ff5bdb843.bindPopup(popup_416dde636d5b4d399a85bdad12ad8130);
+
+
+
+
+
+            var circle_e1c9346909ce43078c896cba35c467f9 = L.circle(
+                [40.4,-3.683333],
+                {
+  "bubblingMouseEvents": true,
+  "color": "red",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "red",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "98196.1213592",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_88569d9596ab4e6b9e6d27466d94e675 = L.popup({maxWidth: '300'});
+
+
+                var html_fc4d7f1d36d04bebb0f74ca2c11f0609 = $('<div id="html_fc4d7f1d36d04bebb0f74ca2c11f0609" style="width: 100.0%; height: 100.0%;">西班牙</div>')[0];
+                popup_88569d9596ab4e6b9e6d27466d94e675.setContent(html_fc4d7f1d36d04bebb0f74ca2c11f0609);
+
+
+            circle_e1c9346909ce43078c896cba35c467f9.bindPopup(popup_88569d9596ab4e6b9e6d27466d94e675);
+
+
+
+
+
+            var circle_56760b035bc549859f8fbed07f1967f1 = L.circle(
+                [37.55,126.983333],
+                {
+  "bubblingMouseEvents": true,
+  "color": "red",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "red",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "82837.058434",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_9bc8070fd2f04781acfd6c02098fd3ef = L.popup({maxWidth: '300'});
+
+
+                var html_34fa3fbd4af542bfbda015cf6b17aad8 = $('<div id="html_34fa3fbd4af542bfbda015cf6b17aad8" style="width: 100.0%; height: 100.0%;">南韓</div>')[0];
+                popup_9bc8070fd2f04781acfd6c02098fd3ef.setContent(html_34fa3fbd4af542bfbda015cf6b17aad8);
+
+
+            circle_56760b035bc549859f8fbed07f1967f1.bindPopup(popup_9bc8070fd2f04781acfd6c02098fd3ef);
+
+
+
+
+
+            var circle_673d6ccb12b74617ba8baacc2f705c6e = L.circle(
+                [50.0833333333,14.466667],
+                {
+  "bubblingMouseEvents": true,
+  "color": "#3186cc",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "#3186cc",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "82772.9409288",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_36735c37d0754698b672b31d95bbae90 = L.popup({maxWidth: '300'});
+
+
+                var html_3999628e6b61419fa06b457e666d51ba = $('<div id="html_3999628e6b61419fa06b457e666d51ba" style="width: 100.0%; height: 100.0%;">捷克</div>')[0];
+                popup_36735c37d0754698b672b31d95bbae90.setContent(html_3999628e6b61419fa06b457e666d51ba);
+
+
+            circle_673d6ccb12b74617ba8baacc2f705c6e.bindPopup(popup_36735c37d0754698b672b31d95bbae90);
+
+
+
+
+
+            var circle_e4d64d2528274a36877ebd16c541d6a9 = L.circle(
+                [39.9166666667,116.383333],
+                {
+  "bubblingMouseEvents": true,
+  "color": "#3186cc",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "#3186cc",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "81622.9946155",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_2217537492ce4ad59b345f438165cb03 = L.popup({maxWidth: '300'});
+
+
+                var html_6f6156a6810e4cf19da53589ae387219 = $('<div id="html_6f6156a6810e4cf19da53589ae387219" style="width: 100.0%; height: 100.0%;">中國大陸</div>')[0];
+                popup_2217537492ce4ad59b345f438165cb03.setContent(html_6f6156a6810e4cf19da53589ae387219);
+
+
+            circle_e4d64d2528274a36877ebd16c541d6a9.bindPopup(popup_2217537492ce4ad59b345f438165cb03);
+
+
+
+
+
+            var circle_862c0005c5b64f7b9f561f8e8181dc3d = L.circle(
+                [48.2,16.366667],
+                {
+  "bubblingMouseEvents": true,
+  "color": "red",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "red",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "70002.4017445",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_6a343c29086f48cb910587967dac3663 = L.popup({maxWidth: '300'});
+
+
+                var html_65213f9e01ff48abbe05c2d19d54cf5a = $('<div id="html_65213f9e01ff48abbe05c2d19d54cf5a" style="width: 100.0%; height: 100.0%;">奧地利</div>')[0];
+                popup_6a343c29086f48cb910587967dac3663.setContent(html_65213f9e01ff48abbe05c2d19d54cf5a);
+
+
+            circle_862c0005c5b64f7b9f561f8e8181dc3d.bindPopup(popup_6a343c29086f48cb910587967dac3663);
+
+
+
+
+
+            var circle_43211dcae2864bb4b2771d474b234e2f = L.circle(
+                [39.9333333333,32.866667],
+                {
+  "bubblingMouseEvents": true,
+  "color": "red",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "red",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "63287.9016874",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_f8e724e3673c468184c5f2b9ae62477c = L.popup({maxWidth: '300'});
+
+
+                var html_b50b7f89cdec45c383fdf6b8e5b2ba27 = $('<div id="html_b50b7f89cdec45c383fdf6b8e5b2ba27" style="width: 100.0%; height: 100.0%;">土耳其</div>')[0];
+                popup_f8e724e3673c468184c5f2b9ae62477c.setContent(html_b50b7f89cdec45c383fdf6b8e5b2ba27);
+
+
+            circle_43211dcae2864bb4b2771d474b234e2f.bindPopup(popup_f8e724e3673c468184c5f2b9ae62477c);
+
+
+
+
+
+            var circle_afe8b1a123c1470ea9276e9fc6bdc88a = L.circle(
+                [38.7166666667,-9.133333],
+                {
+  "bubblingMouseEvents": true,
+  "color": "red",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "red",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "62764.996216",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_c3b35ff0771d4836b203ca592e3de27d = L.popup({maxWidth: '300'});
+
+
+                var html_d682767454bc4e5a91bee6ab59e3d6dc = $('<div id="html_d682767454bc4e5a91bee6ab59e3d6dc" style="width: 100.0%; height: 100.0%;">葡萄牙</div>')[0];
+                popup_c3b35ff0771d4836b203ca592e3de27d.setContent(html_d682767454bc4e5a91bee6ab59e3d6dc);
+
+
+            circle_afe8b1a123c1470ea9276e9fc6bdc88a.bindPopup(popup_c3b35ff0771d4836b203ca592e3de27d);
+
+
+
+
+
+            var circle_c8c1cf49b0c642ae834e7644897c8b4f = L.circle(
+                [13.75,100.516667],
+                {
+  "bubblingMouseEvents": true,
+  "color": "green",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "green",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "60607.8542765",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_16635f2f79784ac38ba8a42f1cd3f5ed = L.popup({maxWidth: '300'});
+
+
+                var html_97d5ee8cf70441418558175708650b86 = $('<div id="html_97d5ee8cf70441418558175708650b86" style="width: 100.0%; height: 100.0%;">泰國</div>')[0];
+                popup_16635f2f79784ac38ba8a42f1cd3f5ed.setContent(html_97d5ee8cf70441418558175708650b86);
+
+
+            circle_c8c1cf49b0c642ae834e7644897c8b4f.bindPopup(popup_16635f2f79784ac38ba8a42f1cd3f5ed);
+
+
+
+
+
+            var circle_e7e7cdd455bb48a4bddf0418e2fccd63 = L.circle(
+                [35.6833333333,139.75],
+                {
+  "bubblingMouseEvents": true,
+  "color": "grey",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "grey",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "58984.10591",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_44e5717283744045a5ef83fcdf931173 = L.popup({maxWidth: '300'});
+
+
+                var html_5d1d2c32858049cdb9d18378901d027c = $('<div id="html_5d1d2c32858049cdb9d18378901d027c" style="width: 100.0%; height: 100.0%;">日本</div>')[0];
+                popup_44e5717283744045a5ef83fcdf931173.setContent(html_5d1d2c32858049cdb9d18378901d027c);
+
+
+            circle_e7e7cdd455bb48a4bddf0418e2fccd63.bindPopup(popup_44e5717283744045a5ef83fcdf931173);
+
+
+
+
+
+            var circle_670e3a64c18e4f328b2f3c3428c237e8 = L.circle(
+                [44.4333333333,26.1],
+                {
+  "bubblingMouseEvents": true,
+  "color": "green",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "green",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "57565.2868489",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_105f017ff29546bbb1142faf5b4fab8e = L.popup({maxWidth: '300'});
+
+
+                var html_9b1273f9a2a044169a8adc3f0acbd81f = $('<div id="html_9b1273f9a2a044169a8adc3f0acbd81f" style="width: 100.0%; height: 100.0%;">羅馬尼亞</div>')[0];
+                popup_105f017ff29546bbb1142faf5b4fab8e.setContent(html_9b1273f9a2a044169a8adc3f0acbd81f);
+
+
+            circle_670e3a64c18e4f328b2f3c3428c237e8.bindPopup(popup_105f017ff29546bbb1142faf5b4fab8e);
+
+
+
+
+
+            var circle_9c6e655039fc4bc68361f484d18a0260 = L.circle(
+                [28.6,77.2],
+                {
+  "bubblingMouseEvents": true,
+  "color": "green",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "green",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "52812.7352066",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_4365b365af2040929ccc16d67d5ef6e8 = L.popup({maxWidth: '300'});
+
+
+                var html_784b44b75a9b478fa57e51579059aba6 = $('<div id="html_784b44b75a9b478fa57e51579059aba6" style="width: 100.0%; height: 100.0%;">印度</div>')[0];
+                popup_4365b365af2040929ccc16d67d5ef6e8.setContent(html_784b44b75a9b478fa57e51579059aba6);
+
+
+            circle_9c6e655039fc4bc68361f484d18a0260.bindPopup(popup_4365b365af2040929ccc16d67d5ef6e8);
+
+
+
+
+
+            var circle_2eb04aec29bb459f97c55a8afde837aa = L.circle(
+                [55.75,37.6],
+                {
+  "bubblingMouseEvents": true,
+  "color": "grey",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "grey",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "45520.1136861",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_b611daca5a0a4d45b62ae0f693234a2b = L.popup({maxWidth: '300'});
+
+
+                var html_6f8bfcbea4754e449cc72fe2a08ad426 = $('<div id="html_6f8bfcbea4754e449cc72fe2a08ad426" style="width: 100.0%; height: 100.0%;">俄羅斯</div>')[0];
+                popup_b611daca5a0a4d45b62ae0f693234a2b.setContent(html_6f8bfcbea4754e449cc72fe2a08ad426);
+
+
+            circle_2eb04aec29bb459f97c55a8afde837aa.bindPopup(popup_b611daca5a0a4d45b62ae0f693234a2b);
+
+
+
+
+
+            var circle_b2038ecc86c34082a5e569084350cb8f = L.circle(
+                [1.28333333333,103.85],
+                {
+  "bubblingMouseEvents": true,
+  "color": "grey",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "grey",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "38875.0434083",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_235d508d200f438fb5a71ddb5e39b850 = L.popup({maxWidth: '300'});
+
+
+                var html_ce1622fa3fa94d12815ce0eadccfa0cb = $('<div id="html_ce1622fa3fa94d12815ce0eadccfa0cb" style="width: 100.0%; height: 100.0%;">新加坡</div>')[0];
+                popup_235d508d200f438fb5a71ddb5e39b850.setContent(html_ce1622fa3fa94d12815ce0eadccfa0cb);
+
+
+            circle_b2038ecc86c34082a5e569084350cb8f.bindPopup(popup_235d508d200f438fb5a71ddb5e39b850);
+
+
+
+
+
+            var circle_639dcbf548d049e2a18575dfcc067223 = L.circle(
+                [22.28552,114.15769],
+                {
+  "bubblingMouseEvents": true,
+  "color": "green",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "green",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "38443.8909321",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_dcd87a24c3af4eb88556c49dbfff1c67 = L.popup({maxWidth: '300'});
+
+
+                var html_a059a863d9bf4c4aab614272714db907 = $('<div id="html_a059a863d9bf4c4aab614272714db907" style="width: 100.0%; height: 100.0%;">香港</div>')[0];
+                popup_dcd87a24c3af4eb88556c49dbfff1c67.setContent(html_a059a863d9bf4c4aab614272714db907);
+
+
+            circle_639dcbf548d049e2a18575dfcc067223.bindPopup(popup_dcd87a24c3af4eb88556c49dbfff1c67);
+
+
+
+
+
+            var circle_4d0f46d8aa9141c8a6b981c7d7d1f1d2 = L.circle(
+                [14.6,120.966667],
+                {
+  "bubblingMouseEvents": true,
+  "color": "green",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "green",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "35135.3561246",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_a883fe00efea4b5fbe8aed7d06fdd97e = L.popup({maxWidth: '300'});
+
+
+                var html_9084199103ee41bfb62879e07f31f00e = $('<div id="html_9084199103ee41bfb62879e07f31f00e" style="width: 100.0%; height: 100.0%;">菲律賓</div>')[0];
+                popup_a883fe00efea4b5fbe8aed7d06fdd97e.setContent(html_9084199103ee41bfb62879e07f31f00e);
+
+
+            circle_4d0f46d8aa9141c8a6b981c7d7d1f1d2.bindPopup(popup_a883fe00efea4b5fbe8aed7d06fdd97e);
+
+
+
+
+
+            var circle_cd01946985f44732bcb6f1a1187063b3 = L.circle(
+                [45.8,16.0],
+                {
+  "bubblingMouseEvents": true,
+  "color": "green",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "green",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "31804.661608",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_0f407341a2d246db836212505dcd0ef0 = L.popup({maxWidth: '300'});
+
+
+                var html_9e9c8479452745dd823d300dab7bb2d5 = $('<div id="html_9e9c8479452745dd823d300dab7bb2d5" style="width: 100.0%; height: 100.0%;">克羅埃西亞</div>')[0];
+                popup_0f407341a2d246db836212505dcd0ef0.setContent(html_9e9c8479452745dd823d300dab7bb2d5);
+
+
+            circle_cd01946985f44732bcb6f1a1187063b3.bindPopup(popup_0f407341a2d246db836212505dcd0ef0);
+
+
+
+
+
+            var circle_a517cb6c57094fab94f69e3514902a23 = L.circle(
+                [-25.7,28.216667],
+                {
+  "bubblingMouseEvents": true,
+  "color": "green",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "green",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "31256.6432939",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_536b643fca6f4b628f0c06460089a1bd = L.popup({maxWidth: '300'});
+
+
+                var html_4b369e94351c487a97a712c0d7850d61 = $('<div id="html_4b369e94351c487a97a712c0d7850d61" style="width: 100.0%; height: 100.0%;">南非</div>')[0];
+                popup_536b643fca6f4b628f0c06460089a1bd.setContent(html_4b369e94351c487a97a712c0d7850d61);
+
+
+            circle_a517cb6c57094fab94f69e3514902a23.bindPopup(popup_536b643fca6f4b628f0c06460089a1bd);
+
+
+
+
+
+            var circle_ef4cd132d273460e866da61629ce3008 = L.circle(
+                [-35.2666666667,149.133333],
+                {
+  "bubblingMouseEvents": true,
+  "color": "grey",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "grey",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "30635.3635526",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_68af862a8fc24676addc723f0cca3832 = L.popup({maxWidth: '300'});
+
+
+                var html_d12f63705aac44d98eb06198c1ad9f65 = $('<div id="html_d12f63705aac44d98eb06198c1ad9f65" style="width: 100.0%; height: 100.0%;">澳大利亞</div>')[0];
+                popup_68af862a8fc24676addc723f0cca3832.setContent(html_d12f63705aac44d98eb06198c1ad9f65);
+
+
+            circle_ef4cd132d273460e866da61629ce3008.bindPopup(popup_68af862a8fc24676addc723f0cca3832);
+
+
+
+
+
+            var circle_45865d9c8625437c9f9b7cf655de5284 = L.circle(
+                [3.16666666667,101.7],
+                {
+  "bubblingMouseEvents": true,
+  "color": "grey",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "grey",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "30414.9346539",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_f2e21412d5a34b5888be9e174520332e = L.popup({maxWidth: '300'});
+
+
+                var html_81e280b8b60b43e0bd007e6cf1380c7a = $('<div id="html_81e280b8b60b43e0bd007e6cf1380c7a" style="width: 100.0%; height: 100.0%;">馬來西亞</div>')[0];
+                popup_f2e21412d5a34b5888be9e174520332e.setContent(html_81e280b8b60b43e0bd007e6cf1380c7a);
+
+
+            circle_45865d9c8625437c9f9b7cf655de5284.bindPopup(popup_f2e21412d5a34b5888be9e174520332e);
+
+
+
+
+
+            var circle_5ab2ad7c415b41e3a035f6ea900ee380 = L.circle(
+                [6.91666666667,79.833333],
+                {
+  "bubblingMouseEvents": true,
+  "color": "green",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "green",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "19269.5874372",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_378755937a5f41f28a31385d5fb3c187 = L.popup({maxWidth: '300'});
+
+
+                var html_a61fae323f9c4be5845f0904c24abc5d = $('<div id="html_a61fae323f9c4be5845f0904c24abc5d" style="width: 100.0%; height: 100.0%;">斯里蘭卡</div>')[0];
+                popup_378755937a5f41f28a31385d5fb3c187.setContent(html_a61fae323f9c4be5845f0904c24abc5d);
+
+
+            circle_5ab2ad7c415b41e3a035f6ea900ee380.bindPopup(popup_378755937a5f41f28a31385d5fb3c187);
+
+
+
+
+
+            var circle_ad03a890b3d84cbb9934abe5f3bc7f1c = L.circle(
+                [35.7,51.416667],
+                {
+  "bubblingMouseEvents": true,
+  "color": "green",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "green",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "16534.7739628",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_49635da948d14af7964f1eba3b309fbe = L.popup({maxWidth: '300'});
+
+
+                var html_8585de00bfd64087acb56fe2e7182741 = $('<div id="html_8585de00bfd64087acb56fe2e7182741" style="width: 100.0%; height: 100.0%;">伊朗</div>')[0];
+                popup_49635da948d14af7964f1eba3b309fbe.setContent(html_8585de00bfd64087acb56fe2e7182741);
+
+
+            circle_ad03a890b3d84cbb9934abe5f3bc7f1c.bindPopup(popup_49635da948d14af7964f1eba3b309fbe);
+
+
+
+
+
+            var circle_f97dbf7a78664c5eb09f14b186cc16a5 = L.circle(
+                [35.8833333333,14.5],
+                {
+  "bubblingMouseEvents": true,
+  "color": "green",
+  "dashArray": null,
+  "dashOffset": null,
+  "fill": true,
+  "fillColor": "green",
+  "fillOpacity": 0.2,
+  "fillRule": "evenodd",
+  "lineCap": "round",
+  "lineJoin": "round",
+  "opacity": 1.0,
+  "radius": "12378.2773438",
+  "stroke": true,
+  "weight": 3
+}
+                ).addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+            var popup_8c57734cebf8455ead0b153e5dd41598 = L.popup({maxWidth: '300'});
+
+
+                var html_1ebfb1c894bf4f55af4cb9203ae1a206 = $('<div id="html_1ebfb1c894bf4f55af4cb9203ae1a206" style="width: 100.0%; height: 100.0%;">馬爾他</div>')[0];
+                popup_8c57734cebf8455ead0b153e5dd41598.setContent(html_1ebfb1c894bf4f55af4cb9203ae1a206);
+
+
+            circle_f97dbf7a78664c5eb09f14b186cc16a5.bindPopup(popup_8c57734cebf8455ead0b153e5dd41598);
+
+
+
+
+
+            var marker_1845007cc5fb47898b32ad7036575d47 = L.marker(
+                [52.35,4.916667],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_204cba6363ad40539e822184b05a254a = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">荷蘭</div>',
+                    });
+                marker_1845007cc5fb47898b32ad7036575d47.setIcon(div_icon_204cba6363ad40539e822184b05a254a);
+
+
+
+            var marker_5a178868f29645b1bd52c38e53fbe70c = L.marker(
+                [52.5166666667,13.4],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_0f8d31205e234edcacc01026d80d99f3 = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">德國</div>',
+                    });
+                marker_5a178868f29645b1bd52c38e53fbe70c.setIcon(div_icon_0f8d31205e234edcacc01026d80d99f3);
+
+
+
+            var marker_77094b33853f4040bddb21e54bf33635 = L.marker(
+                [52.25,21.0],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_14a3ba067bfe4f8896a86bf86e7fd1a4 = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">波蘭</div>',
+                    });
+                marker_77094b33853f4040bddb21e54bf33635.setIcon(div_icon_14a3ba067bfe4f8896a86bf86e7fd1a4);
+
+
+
+            var marker_a446ca058c22497dad08a0fbb50a14d1 = L.marker(
+                [38.883333,-77.0],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_0846b5c80d0f434c99628c74be8b5ed9 = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">美國</div>',
+                    });
+                marker_a446ca058c22497dad08a0fbb50a14d1.setIcon(div_icon_0846b5c80d0f434c99628c74be8b5ed9);
+
+
+
+            var marker_42235819a73d4668b28839926580e494 = L.marker(
+                [51.5,-0.083333],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_5969da9837d34d2d9e34b7a61618cf95 = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">英國</div>',
+                    });
+                marker_42235819a73d4668b28839926580e494.setIcon(div_icon_5969da9837d34d2d9e34b7a61618cf95);
+
+
+
+            var marker_c34a0105b9894b86955a4874615d7cca = L.marker(
+                [48.8666666667,2.333333],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_60b50c0388324ed9a348038ceadf098b = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">法國</div>',
+                    });
+                marker_c34a0105b9894b86955a4874615d7cca.setIcon(div_icon_60b50c0388324ed9a348038ceadf098b);
+
+
+
+            var marker_b7f5fbc9992c46d689860de0af39f7c0 = L.marker(
+                [59.3333333333,18.05],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_520263badc02423c98533a055d54ec72 = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">瑞典</div>',
+                    });
+                marker_b7f5fbc9992c46d689860de0af39f7c0.setIcon(div_icon_520263badc02423c98533a055d54ec72);
+
+
+
+            var marker_b602960c7078413092b405b3ad1fc371 = L.marker(
+                [25.0333333333,121.516667],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_aef8868dc3684f0ba4af5afa97227caf = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">台灣</div>',
+                    });
+                marker_b602960c7078413092b405b3ad1fc371.setIcon(div_icon_aef8868dc3684f0ba4af5afa97227caf);
+
+
+
+            var marker_b4f0e9a204794b0096b5c42dc72288c1 = L.marker(
+                [40.4,-3.683333],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_f604572299184626980e8d5a7cff918a = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">西班牙</div>',
+                    });
+                marker_b4f0e9a204794b0096b5c42dc72288c1.setIcon(div_icon_f604572299184626980e8d5a7cff918a);
+
+
+
+            var marker_d6de699a850d4dc1bdf92932d3c20aff = L.marker(
+                [37.55,126.983333],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_8168b63704b94b52986ec543d2bb3567 = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">南韓</div>',
+                    });
+                marker_d6de699a850d4dc1bdf92932d3c20aff.setIcon(div_icon_8168b63704b94b52986ec543d2bb3567);
+
+
+
+            var marker_e927436f1c7d4f389fcf2a5fe8d53404 = L.marker(
+                [50.0833333333,14.466667],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_4a05a37e0ba840f6b0283abec0378ee0 = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">捷克</div>',
+                    });
+                marker_e927436f1c7d4f389fcf2a5fe8d53404.setIcon(div_icon_4a05a37e0ba840f6b0283abec0378ee0);
+
+
+
+            var marker_e0c44d8f7a29466885eda4bcd3ed82b2 = L.marker(
+                [39.9166666667,116.383333],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_942fe9d482ff48debcd010c12be8f875 = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">中國大陸</div>',
+                    });
+                marker_e0c44d8f7a29466885eda4bcd3ed82b2.setIcon(div_icon_942fe9d482ff48debcd010c12be8f875);
+
+
+
+            var marker_954d4e141e6b4ba99446f7406074846c = L.marker(
+                [48.2,16.366667],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_1273aede728242d490174de7f36f1553 = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">奧地利</div>',
+                    });
+                marker_954d4e141e6b4ba99446f7406074846c.setIcon(div_icon_1273aede728242d490174de7f36f1553);
+
+
+
+            var marker_b3537d9630bc4b75ba1bce088c0f4499 = L.marker(
+                [39.9333333333,32.866667],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_37157cd7eb3749528c8f61918f792de9 = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">土耳其</div>',
+                    });
+                marker_b3537d9630bc4b75ba1bce088c0f4499.setIcon(div_icon_37157cd7eb3749528c8f61918f792de9);
+
+
+
+            var marker_677c94b8d5ea46e18236099df153f8a8 = L.marker(
+                [38.7166666667,-9.133333],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_c09b4c4c22334f6f94da3f531a4bede0 = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">葡萄牙</div>',
+                    });
+                marker_677c94b8d5ea46e18236099df153f8a8.setIcon(div_icon_c09b4c4c22334f6f94da3f531a4bede0);
+
+
+
+            var marker_d41456972e7749e1afe21c283b4be0d3 = L.marker(
+                [13.75,100.516667],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_75abe31480074b70b318db225df5b21b = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">泰國</div>',
+                    });
+                marker_d41456972e7749e1afe21c283b4be0d3.setIcon(div_icon_75abe31480074b70b318db225df5b21b);
+
+
+
+            var marker_34f380e843df4c2783d6c7ab445859f6 = L.marker(
+                [35.6833333333,139.75],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_c48736483954464ea4fd215471043a4c = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">日本</div>',
+                    });
+                marker_34f380e843df4c2783d6c7ab445859f6.setIcon(div_icon_c48736483954464ea4fd215471043a4c);
+
+
+
+            var marker_f903442ca2244b8fbc56f4baaba9ca98 = L.marker(
+                [44.4333333333,26.1],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_db4aca002ef0445f975f216106e681fb = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">羅馬尼亞</div>',
+                    });
+                marker_f903442ca2244b8fbc56f4baaba9ca98.setIcon(div_icon_db4aca002ef0445f975f216106e681fb);
+
+
+
+            var marker_abc74d3cd07f4618af620682a2062a99 = L.marker(
+                [28.6,77.2],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_14b3048dd25b42dfa98cb837d83ed6ed = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">印度</div>',
+                    });
+                marker_abc74d3cd07f4618af620682a2062a99.setIcon(div_icon_14b3048dd25b42dfa98cb837d83ed6ed);
+
+
+
+            var marker_8b30aa4763434e30bc88602948f671f3 = L.marker(
+                [55.75,37.6],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_86febd72f7a841a294d5e07bbe9efabb = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">俄羅斯</div>',
+                    });
+                marker_8b30aa4763434e30bc88602948f671f3.setIcon(div_icon_86febd72f7a841a294d5e07bbe9efabb);
+
+
+
+            var marker_eb6be982313342a5b43d62a765b8350a = L.marker(
+                [1.28333333333,103.85],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_d1c62442e95b41329edcdac097ba42b0 = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">新加坡</div>',
+                    });
+                marker_eb6be982313342a5b43d62a765b8350a.setIcon(div_icon_d1c62442e95b41329edcdac097ba42b0);
+
+
+
+            var marker_7696bf238ffd4aa0b74fb673af710bb9 = L.marker(
+                [22.28552,114.15769],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_34053e46a7e04f7da90d55a86295d4fc = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">香港</div>',
+                    });
+                marker_7696bf238ffd4aa0b74fb673af710bb9.setIcon(div_icon_34053e46a7e04f7da90d55a86295d4fc);
+
+
+
+            var marker_c36e0d1b9304452eb21547a206523dbc = L.marker(
+                [14.6,120.966667],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_d32337eb2f6c410490f5f6b7191f4780 = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">菲律賓</div>',
+                    });
+                marker_c36e0d1b9304452eb21547a206523dbc.setIcon(div_icon_d32337eb2f6c410490f5f6b7191f4780);
+
+
+
+            var marker_38249780bcb345b088e326a4e4d71cc5 = L.marker(
+                [45.8,16.0],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_a74e21f0e7364c3ea3eee5c069ebb063 = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">克羅埃西亞</div>',
+                    });
+                marker_38249780bcb345b088e326a4e4d71cc5.setIcon(div_icon_a74e21f0e7364c3ea3eee5c069ebb063);
+
+
+
+            var marker_477dc8a7f9584861aaed6f6550b465fe = L.marker(
+                [-25.7,28.216667],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_57bca83913c146bba407252ed9a18aef = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">南非</div>',
+                    });
+                marker_477dc8a7f9584861aaed6f6550b465fe.setIcon(div_icon_57bca83913c146bba407252ed9a18aef);
+
+
+
+            var marker_463a95906b0744ce82021cdbc4b83c5c = L.marker(
+                [-35.2666666667,149.133333],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_ab1aebffad8b4492ade60f623db86cde = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">澳大利亞</div>',
+                    });
+                marker_463a95906b0744ce82021cdbc4b83c5c.setIcon(div_icon_ab1aebffad8b4492ade60f623db86cde);
+
+
+
+            var marker_574db749fe9344d6b17d862231c0d956 = L.marker(
+                [3.16666666667,101.7],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_028c5ce675654fc389a28dc4409fa86d = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">馬來西亞</div>',
+                    });
+                marker_574db749fe9344d6b17d862231c0d956.setIcon(div_icon_028c5ce675654fc389a28dc4409fa86d);
+
+
+
+            var marker_f4e48f714fda4829bb96814f8831fb48 = L.marker(
+                [6.91666666667,79.833333],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_8d8e6ed8a7e24bd7a7c5aae868d098a9 = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">斯里蘭卡</div>',
+                    });
+                marker_f4e48f714fda4829bb96814f8831fb48.setIcon(div_icon_8d8e6ed8a7e24bd7a7c5aae868d098a9);
+
+
+
+            var marker_8257cfec4681491d99b9e26f77ea0677 = L.marker(
+                [35.7,51.416667],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_8d42256e8f4b424e83813bafa54eb763 = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">伊朗</div>',
+                    });
+                marker_8257cfec4681491d99b9e26f77ea0677.setIcon(div_icon_8d42256e8f4b424e83813bafa54eb763);
+
+
+
+            var marker_fd190c390c344c2c808987fd7caaf213 = L.marker(
+                [35.8833333333,14.5],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var div_icon_b1cb782976d446e19417b3c23b6d34f5 = L.divIcon({
+                    iconSize: [150,36],
+                    iconAnchor: [0,0],
+
+                    className: 'empty',
+                    html: '<div style="font-size: 12pt">馬爾他</div>',
+                    });
+                marker_fd190c390c344c2c808987fd7caaf213.setIcon(div_icon_b1cb782976d446e19417b3c23b6d34f5);
+
+
+
+            var marker_2c98c8d70c9d485aba69a4c038946bd2 = L.marker(
+                [52.35,4.916667],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_83674568248b44c69fb138f70db834a8 = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'blue',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_2c98c8d70c9d485aba69a4c038946bd2.setIcon(icon_83674568248b44c69fb138f70db834a8);
+
+
+
+            var marker_c05be9d916e3467d9199a1b69577705e = L.marker(
+                [52.5166666667,13.4],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_e74641bf238d409a8c7eeb417a47b0da = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'red',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_c05be9d916e3467d9199a1b69577705e.setIcon(icon_e74641bf238d409a8c7eeb417a47b0da);
+
+
+
+            var marker_8915545945414865b49d186fb32a6350 = L.marker(
+                [52.25,21.0],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_9c88dd13076a45feb2fdbda4544b3a94 = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'blue',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_8915545945414865b49d186fb32a6350.setIcon(icon_9c88dd13076a45feb2fdbda4544b3a94);
+
+
+
+            var marker_69e2d768541d44f0b8c2b2609084c7e0 = L.marker(
+                [38.883333,-77.0],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_a4200bcc98804180a4d452b102bb749c = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'red',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_69e2d768541d44f0b8c2b2609084c7e0.setIcon(icon_a4200bcc98804180a4d452b102bb749c);
+
+
+
+            var marker_3ca1a04291b6453aab9741f8f729f69a = L.marker(
+                [51.5,-0.083333],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_ca668739ed21413c98ae6873a0efb7e1 = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'blue',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_3ca1a04291b6453aab9741f8f729f69a.setIcon(icon_ca668739ed21413c98ae6873a0efb7e1);
+
+
+
+            var marker_dd76a006f772440ca23c061f7f77d82f = L.marker(
+                [48.8666666667,2.333333],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_639232dafa274175a804d85684c71f89 = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'red',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_dd76a006f772440ca23c061f7f77d82f.setIcon(icon_639232dafa274175a804d85684c71f89);
+
+
+
+            var marker_bca4365e08ca430395296eab4d58846c = L.marker(
+                [59.3333333333,18.05],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_dae6dc2425834cd98c3602b68c3d43db = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'red',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_bca4365e08ca430395296eab4d58846c.setIcon(icon_dae6dc2425834cd98c3602b68c3d43db);
+
+
+
+            var marker_e1778edc6c6e43c09a5405c1376cb51a = L.marker(
+                [25.0333333333,121.516667],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_d9615879e4f34f729bdac1e4ec16276f = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'red',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_e1778edc6c6e43c09a5405c1376cb51a.setIcon(icon_d9615879e4f34f729bdac1e4ec16276f);
+
+
+
+            var marker_1da40d376b4343699e26fa5e4f94bf83 = L.marker(
+                [40.4,-3.683333],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_d99af10fa40544f6a39964206853c18c = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'red',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_1da40d376b4343699e26fa5e4f94bf83.setIcon(icon_d99af10fa40544f6a39964206853c18c);
+
+
+
+            var marker_9e67d29bec3b4834bb5c7ba6f00844b0 = L.marker(
+                [37.55,126.983333],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_af63d6e802e84b958efab099a1b4df65 = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'red',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_9e67d29bec3b4834bb5c7ba6f00844b0.setIcon(icon_af63d6e802e84b958efab099a1b4df65);
+
+
+
+            var marker_485d0b20e07f4617bd23e34854e62b09 = L.marker(
+                [50.0833333333,14.466667],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_d9520d4efeab48d9b8e25d3461b28fe5 = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'blue',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_485d0b20e07f4617bd23e34854e62b09.setIcon(icon_d9520d4efeab48d9b8e25d3461b28fe5);
+
+
+
+            var marker_caa73f68d4ac408a93ef931a8597fd2c = L.marker(
+                [39.9166666667,116.383333],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_023e098c13a94ede9e2a130f4eea7c26 = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'blue',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_caa73f68d4ac408a93ef931a8597fd2c.setIcon(icon_023e098c13a94ede9e2a130f4eea7c26);
+
+
+
+            var marker_dfb92cb5aab14e0695095e40e3797735 = L.marker(
+                [48.2,16.366667],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_b13442be4b1246bfa4f0aa99d600ca07 = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'red',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_dfb92cb5aab14e0695095e40e3797735.setIcon(icon_b13442be4b1246bfa4f0aa99d600ca07);
+
+
+
+            var marker_c1018713f9dc46cd93987010b0b3f4b5 = L.marker(
+                [39.9333333333,32.866667],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_4b144c3063a949779e740a59a2c46729 = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'red',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_c1018713f9dc46cd93987010b0b3f4b5.setIcon(icon_4b144c3063a949779e740a59a2c46729);
+
+
+
+            var marker_4cb2df9b7b4743738c315471e1f5e34f = L.marker(
+                [38.7166666667,-9.133333],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_7ad0768a05c34d9da25b957b56778c6a = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'red',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_4cb2df9b7b4743738c315471e1f5e34f.setIcon(icon_7ad0768a05c34d9da25b957b56778c6a);
+
+
+
+            var marker_7372c7f779c34017a16911174a46d1fe = L.marker(
+                [13.75,100.516667],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_7bbee84093d0483a974e4d494f173ecf = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_7372c7f779c34017a16911174a46d1fe.setIcon(icon_7bbee84093d0483a974e4d494f173ecf);
+
+
+
+            var marker_dfb9d460b94a4eb3a23db9ef837c372b = L.marker(
+                [35.6833333333,139.75],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_fe63c0b125de40c18bd51484ff1b8be8 = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'gray',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_dfb9d460b94a4eb3a23db9ef837c372b.setIcon(icon_fe63c0b125de40c18bd51484ff1b8be8);
+
+
+
+            var marker_61a5a149ea0e452c87f86d4b3f92049c = L.marker(
+                [44.4333333333,26.1],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_d82f09d77b24448a97e50373bf9b3400 = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_61a5a149ea0e452c87f86d4b3f92049c.setIcon(icon_d82f09d77b24448a97e50373bf9b3400);
+
+
+
+            var marker_62f957ab8b8447bcbc7e29170e3ed663 = L.marker(
+                [28.6,77.2],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_ab5a42fd0c3f4939ab6069f9f8637bdf = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_62f957ab8b8447bcbc7e29170e3ed663.setIcon(icon_ab5a42fd0c3f4939ab6069f9f8637bdf);
+
+
+
+            var marker_411b64c4ae0f413988fa34d45fcdf623 = L.marker(
+                [55.75,37.6],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_53f298c2af834c51b68a026255a564b4 = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'gray',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_411b64c4ae0f413988fa34d45fcdf623.setIcon(icon_53f298c2af834c51b68a026255a564b4);
+
+
+
+            var marker_d03a0cc8e60640ed99c4c3b3b96b5751 = L.marker(
+                [1.28333333333,103.85],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_b3ac5d1beb6641a1b39f44bd7b7c54ab = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'gray',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_d03a0cc8e60640ed99c4c3b3b96b5751.setIcon(icon_b3ac5d1beb6641a1b39f44bd7b7c54ab);
+
+
+
+            var marker_bdb96bf57c904d56a09ee138c67b543f = L.marker(
+                [22.28552,114.15769],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_5ab162c42d7148d9be249acfdb24f42b = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_bdb96bf57c904d56a09ee138c67b543f.setIcon(icon_5ab162c42d7148d9be249acfdb24f42b);
+
+
+
+            var marker_588329569c604c409289df9d0380c946 = L.marker(
+                [14.6,120.966667],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_03e39921bcb4431392949fb8bc065656 = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_588329569c604c409289df9d0380c946.setIcon(icon_03e39921bcb4431392949fb8bc065656);
+
+
+
+            var marker_037b6151c440472aa41f641af648b1e2 = L.marker(
+                [45.8,16.0],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_7e586a5bbe6645628a4f591abeb12ce8 = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_037b6151c440472aa41f641af648b1e2.setIcon(icon_7e586a5bbe6645628a4f591abeb12ce8);
+
+
+
+            var marker_6da84a9b4d5a4cbb9c78f471610762b1 = L.marker(
+                [-25.7,28.216667],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_feaadc6b16fc4bcf82238ae46beedb97 = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_6da84a9b4d5a4cbb9c78f471610762b1.setIcon(icon_feaadc6b16fc4bcf82238ae46beedb97);
+
+
+
+            var marker_f42d57404a7648b0b4767fe60514b740 = L.marker(
+                [-35.2666666667,149.133333],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_88cf7b7c1a5e42bea08fc2ed9f364702 = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'gray',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_f42d57404a7648b0b4767fe60514b740.setIcon(icon_88cf7b7c1a5e42bea08fc2ed9f364702);
+
+
+
+            var marker_c2736501f5b64abfbccf3f5d8d3c6ec4 = L.marker(
+                [3.16666666667,101.7],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_0dc32cb9942b46699323fc6ae47f293d = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'gray',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_c2736501f5b64abfbccf3f5d8d3c6ec4.setIcon(icon_0dc32cb9942b46699323fc6ae47f293d);
+
+
+
+            var marker_c48e5201600b4cb9b17bdc81001d455c = L.marker(
+                [6.91666666667,79.833333],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_04d57126c0ff4861a3120cb8047178da = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_c48e5201600b4cb9b17bdc81001d455c.setIcon(icon_04d57126c0ff4861a3120cb8047178da);
+
+
+
+            var marker_f9a3870eb6344c66a3f71d7f23bba3e8 = L.marker(
+                [35.7,51.416667],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_943fb249d8164ba6ba1d48345f8c3d5e = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_f9a3870eb6344c66a3f71d7f23bba3e8.setIcon(icon_943fb249d8164ba6ba1d48345f8c3d5e);
+
+
+
+            var marker_d6f907499ea840ddb3660bdbd93e4123 = L.marker(
+                [35.8833333333,14.5],
+                {
+                    icon: new L.Icon.Default()
+                    }
+                )
+                .addTo(map_43c03caa13f14012b939b75db6c7b996);
+
+
+
+                var icon_9cf70658a2c942e5abeb2899161a10f4 = L.AwesomeMarkers.icon({
+                    icon: 'circle',
+                    iconColor: 'white',
+                    markerColor: 'green',
+                    prefix: 'fa',
+                    extraClasses: 'fa-rotate-0'
+                    });
+                marker_d6f907499ea840ddb3660bdbd93e4123.setIcon(icon_9cf70658a2c942e5abeb2899161a10f4);
+
+</script>

@@ -1,0 +1,58 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>First_APP__Pracice_TWO for SQL Data import</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <ul class="nav navbar-nav">
+          <li><a class='navbar-brand' href="{% url 'index' %}">Shifty作品集<br>首頁</a></li>
+          <li><a class='navbar-link' href="{% url 'other' %}">KNN-Cosine電影<br>推薦可視化呈現</a></li>
+          <li><a class='navbar-link' href="{% url 'hyper' %}">供應鍊關聯式<br>分析可視化</a></li>
+          <li><a class='navbar-link'  href="{% url 'folium' %}">Folium地圖<br>可視化呈現<br>-主要市場分類</a></li>
+          <li><a class='navbar-link'  href="{% url 'form_view' %}">表格上傳</a></li>
+          <li><a class='navbar-link'  href="{% url 'register' %}">註冊</a></li>
+          <li><a class='navbar-link' href='http://127.0.0.1:8080/admin/login/?next=/admin/'>系統管理員</a></li>
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'logout' %}">Logout</a></li>
+          {% else %}
+            <li><a class="navbar-link" href="{% url 'first_app:user_login' %}">Login</a></li>
+          {% endif %}
+
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      {% block body_block %}
+      <h1>Hello, This is Shifty's Practice for Django Level 2!!</h1>
+      <h2>Hey!Django Fighter!!!This is the data you want!</h2>
+      <img src='{% static 'images/django.jpg' %}' alt='That is really somehing!!' ><br>
+      {% if access_records %}
+      <table class="table">
+        <thead class="thead-inverse">
+          <tr>
+            <th>Site Name</th>
+            <th>Date Accessed</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for acc in access_records %}
+              <tr>
+                <td class="align-middle">{{ acc.name|upper }}</td>
+                <td class="align-middle">{{ acc.date }}</td>
+              </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+
+      {% else %}
+        <p>No Access Records. Table Not Created.</p>
+      {% endif %}
+      {% endblock %}
+    </div>
+  </body>
+</html>

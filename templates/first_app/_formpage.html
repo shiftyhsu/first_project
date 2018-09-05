@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+{% extends 'first_app/index.html' %}
+{% block body_block %}
+{% load staticfiles %}
+  <html lang="en" dir="ltr">
+    <head>
+      <meta charset="utf-8">
+      <title>HELLO FUTI</title>
+    </head>
+    <body>
+      <div class="container">
+        <form method="post">
+         {{form.as_p}}
+         {% csrf_token %}
+        <input type="submit" class="btn btn-primary" value="submitting!">
+      </div>
+    </body>
+  </html>
+{% endblock %}

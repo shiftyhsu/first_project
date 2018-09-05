@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% extends 'first_app/index.html' %}
+{% block body_block %}
+{% load staticfiles %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>First_APP</title>
+    <link rel='stylesheet' href='{% static 'css/mystyle.css' %}'/>
+  </head>
+  <body>
+    <h1>Hello, This is Shifty's Practice!!</h1>
+    <h2>Hey!Django Fighter!!!This is what you want!</h2>
+    <img src='{% static 'images/django.jpg' %}' alt='That is really somehing!!' ><br>
+    {{insert_me}}:{{help_me}}
+  </body>
+</html>
+{% endblock %}
