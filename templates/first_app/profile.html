@@ -1,0 +1,248 @@
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<script>L_PREFER_CANVAS = false; L_NO_TOUCH = false; L_DISABLE_3D = false;</script>
+<script src="https://cdn.jsdelivr.net/npm/leaflet@1.2.0/dist/leaflet.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.2.0/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+
+<!------ Include the above in your HEAD tag ---------->
+
+<!--
+User Profile Sidebar by @keenthemes
+A component of Metronic Theme - #1 Selling Bootstrap 3 Admin Theme in Themeforest: http://j.mp/metronictheme
+Licensed under MIT
+-->
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static "css/profile.css" %}"/>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<body>
+  <nav class="navbar navbar-inverse" style="background:#298089;border-color:#298089;">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+          <a class="navbar-brand" href="{% url 'index' %}"style="color:#F1C40F;background-color: #298089;text-shadow: 0px -0.8px 1px #2C3E50;">
+          <span class="glyphicon glyphicon-home"></span> Home Page</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-left">
+          <li><a href="{% url "PF" %}"style="color:#F1C40F;background-color: #298089;text-shadow: 0px -0.8px 1px #2C3E50;"><span class="glyphicon glyphicon-user"></span> Profile </a></li>
+          <li><a href="https://www.linkedin.com/in/fu-ti-hsu-179a70106/"style="color:#F1C40F;background-color: #298089;text-shadow: 0px -0.8px 1px #2C3E50;"><span class="glyphicon glyphicon-cloud"></span> Linkedin </a></li>
+          <li><a href="{% url 'register' %}"style="color:#F1C40F;background-color: #298089;text-shadow: 0px -0.8px 1px #2C3E50;"><span class="glyphicon glyphicon-edit"></span> Register </a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"style="color:#F1C40F;background: #298089;text-shadow: 0px -0.8px 1px #2C3E50;"><span class="glyphicon glyphicon-signal"></span> Visualization <span class="caret"></span></a>
+            <ul class="dropdown-menu"style="color:#F1C40F;background: #298089">
+              <li><a href="{% url 'folium' %}"style="color:#F1C40F;">Folium Geomap1</a></li></br>
+              <li><a href="{% url 'MS' %}"style="color:#F1C40F;">Folium Geomap2</a></li></br>
+              <li><a href="{% url 'hyper' %}"style="color:#F1C40F;">Supply Chain</br>Analysis</a></li></br>
+              <li><a href="{% url 'other' %}"style="color:#F1C40F;">Knn-Cosine</br>Recommender</a></li></br>
+              <li><a href="{% url 'MAT' %}"style="color:#F1C40F;">Matplotlib Basic</br>Charts</a></li></br>
+            </ul>
+          </li>
+            <form class="navbar-form navbar-left">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0 bottom-control" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+              </div>
+            </form>
+        </ul>
+        {% if user.is_authenticated %}
+        <ul class="nav navbar-nav navbar-right" style='padding-top:15px;'><a href="{% url 'logout' %}"style="color:#F1C40F;background-color: #298089;text-shadow: 0px -0.8px 1px #2C3E50;"><span class='glyphicon glyphicon-log-out'></span> Logout </a></ul>
+        {% else %}
+        <ul class="nav navbar-nav navbar-right" style='padding-top:15px;'><a class="navbar-link" href="{% url 'first_app:user_login' %}"style="color:#F1C40F;background-color: #298089;text-shadow: 0px -0.8px 1px #2C3E50;"><span class='glyphicon glyphicon-log-in'></span> Login </a></ul>
+        {% endif %}
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+</body>
+<!-- <div class="jumbotron">
+  <h1 class="text-center">Hello, world!</h1>
+  <p class="text-center">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+  <p class="text-center"><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+</div> -->
+
+<div class="container">
+  {% block body_block %}
+    <div class="row profile">
+		<div class="col-md-3">
+			<div class="profile-sidebar">
+				<!-- SIDEBAR USERPIC -->
+				<div class="profile-userpic ">
+					<img src="{% static 'images/shifty.jpg' %}" class="img-responsive" alt="">
+				</div>
+				<!-- END SIDEBAR USERPIC -->
+				<!-- SIDEBAR USER TITLE -->
+				<div class="profile-usertitle">
+					<div class="profile-usertitle-name">
+						Fu-Ti, Hsu
+					</div>
+					<div class="profile-usertitle-job">
+						Data Analyst
+					</div>
+				</div>
+				<!-- END SIDEBAR USER TITLE -->
+				<!-- SIDEBAR BUTTONS -->
+				<div class="profile-userbuttons">
+					<button type="button" onclick="location.href='mailto:shifty049@gmail.com';" class="btn btn-success btn-lg">Email Me</button>
+				</div>
+
+				<!-- END SIDEBAR BUTTONS -->
+				<!-- SIDEBAR MENU -->
+				<div class="profile-usermenu">
+					<ul class="nav">
+						<li class="active">
+							<a href="{% url 'index' %}">
+							<i class="glyphicon glyphicon-home"></i>
+							Home Page </a>
+						</li>
+						<li>
+							<a href="https://www.linkedin.com/in/fu-ti-hsu-179a70106/">
+							<i class="glyphicon glyphicon-link"></i>
+							Linkedin </a>
+						</li>
+						<!-- <li>
+							<a href="http://127.0.0.1:8080/admin/login/?next=/admin/" target="_blank">
+							<i class="glyphicon glyphicon-cog"></i>
+							Admin </a>
+						</li> -->
+						<li>
+							<a href="https://drive.google.com/open?id=1QUTOiSCFprc0_yH-C-cZ7IAJxzxHQD1W">
+							<i class="glyphicon glyphicon-save"></i>
+							Download CV </a>
+						</li>
+					</ul>
+				</div>
+				<!-- END MENU -->
+			</div>
+
+
+		</div>
+		<div class="col-md-9">
+<!-- <div class="profile-content"> -->
+  <div class="jumbotron" style="background-color:white !important;border-style: solid;border-width: 0.5px 0.5px 0.5px 5px;border-color: #298089">
+      <h3><b><span class="glyphicon glyphicon-briefcase"></span> EXPERIENCE:</b><h3></br>
+      <h4><b>Taiwan External Trade Development Council</b><span style='display: inline-block; vertical-align: top;float: right;'>Taipei, Taiwan&nbsp;&nbsp;</span></h4></br>
+      <h4><b><i>Data Project Manager</i></b> <span style='display: inline-block; vertical-align: top;float: right;'>Mar 2018 - Current&nbsp;&nbsp;</span></h4></br>
+      <ul style='font-size:18px'>
+        <li>Established ensemble learning predicting growth rate
+          of Taiwan’s export values to each overseas markets
+          (Overseas Potential Markets Recommendation Project)</li></br>
+        <li>Establishing overseas buyers recommender system via
+          association rules of supply chain</li></br>
+        <li>Data Collection/Cleaning/Integration/Visualization</li></br>
+        <li>Provided customized data analysis services for Bureau of
+           Foreign Trade, associations and companies.</li></br></ul>
+      </ul>
+      <h4><b>Laboratory of Fragrance and Perfume</b><span style='display: inline-block; vertical-align: top;float: right;'>Taipei, Taiwan&nbsp;&nbsp;</span></h4></br>
+      <h4><b><i>Data Analyst</i></b><span style='display: inline-block; vertical-align: top;float: right;'>Mar 2018 - Current&nbsp;&nbsp;</span><h4></br>
+      <ul style='font-size:18px'>
+        <li>Established recommender system with association rules for perfume matching</li></br>
+        <li>Established machine modeling for digging business insights and optimizing business modes</li></br>
+        <li>Data Cleaning/Visualization</li></br>
+        <li>Developed PyCNC Control Function</li></br></ul>
+      </ul>
+  </div>
+  <div class="jumbotron" style="background-color:white !important;border-style: solid;border-width: 0.5px 0.5px 0.5px 5px;border-color: #298089">
+      <h3><b><span class="glyphicon glyphicon-book"></span> EDUCATION:</b><h3></br>
+      <h4><b>University of Connecticut School of Business</b><span style='display: inline-block; vertical-align: top;float: right;'>Hartford, CT&nbsp;&nbsp;</span></h4></br>
+      <h4><b><i>Master of Business Analytics and Project Management</i></b><h4></br>
+      <h4>GPA:3.764<span style='display: inline-block; vertical-align: top;float: right;'>Aug 2015 - May 2017&nbsp;&nbsp;</span><h4></br>
+  </div>
+
+
+  <div class="jumbotron" style="background-color:white !important;border-style: solid;border-width: 0.5px 0.5px 0.5px 5px;border-color: #298089">
+    <h3><span class='glyphicon glyphicon-align-left'></span> Language and Platform Skills</h3>
+    </br>
+    <ul class="list-group">
+      <a class="list-group-item inactive-link" href="#">
+        <div class="progress">
+          <div data-placement="top" style="width: 75%;"aria-valuemax="100" aria-valuemin="0" aria-valuenow="75" role="progressbar" class="progress-bar progress-bar-striped progress-bar-success">
+            <span class="sr-only">75%</span>
+            <span class="progress-type pull-left">&nbsp;&nbsp;Python-Pandas, Numpy&nbsp;&nbsp;&nbsp;&nbsp;75%</span>
+          </div>
+        </div>
+        <div class="progress">
+          <div data-placement="top" style="width: 70%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="1" role="progressbar" class="progress-bar progress-bar-striped progress-bar-success">
+            <span class="sr-only">70%</span>
+            <span class="progress-type pull-left">&nbsp;&nbsp;Python-Scikit Learn&nbsp;&nbsp;&nbsp;&nbsp;70%</span>
+          </div>
+        </div>
+        <div class="progress">
+          <div data-placement="top" style="width: 65%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="1" role="progressbar" class="progress-bar progress-bar-striped progress-bar-success">
+            <span class="sr-only">65%</span>
+            <span class="progress-type pull-left">&nbsp;&nbsp;Python-Matplotlib, Folium, PyPDF&nbsp;&nbsp;&nbsp;&nbsp;65%</span>
+          </div>
+        </div>
+        <div class="progress">
+          <div data-placement="top" style="width: 50%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="60" role="progressbar" class="progress-bar progress-bar-striped progress-bar-warning">
+            <span class="sr-only">50%</span>
+            <span class="progress-type pull-left">&nbsp;&nbsp;SQL&nbsp;&nbsp;&nbsp;&nbsp;50%</span>
+          </div>
+        </div>
+        <div class="progress">
+          <div data-placement="top" style="width: 45%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="60" role="progressbar" class="progress-bar progress-bar-striped progress-bar-warning">
+            <span class="sr-only">45%</span>
+            <span class="progress-type pull-left">&nbsp;&nbsp;Excel&nbsp;&nbsp;&nbsp;&nbsp;45%</span>
+          </div>
+        </div>
+        <div class="progress">
+          <div data-placement="top" style="width: 32%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="1" role="progressbar" class="progress-bar progress-bar-striped progress-bar-warning">
+            <span class="sr-only">32%</span>
+            <span class="progress-type pull-left">&nbsp;&nbsp;Django&nbsp;&nbsp;&nbsp;&nbsp;32%</span>
+          </div>
+        </div>
+        <div class="progress">
+          <div data-placement="top" style="width: 30%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" role="progressbar" class="progress-bar progress-bar-striped progress-bar-warning">
+            <span class="sr-only">30%</span>
+            <span class="progress-type pull-left">&nbsp;&nbsp;Data Scraping&nbsp;&nbsp;&nbsp;&nbsp;30%</span>
+          </div>
+        </div>
+        <div class="progress">
+          <div data-placement="top" style="width: 25%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" role="progressbar" class="progress-bar progress-bar-striped progress-bar-danger">
+            <span class="sr-only">25%</span>
+            <span class="progress-type pull-left">&nbsp;&nbsp;Python-Keras&nbsp;&nbsp;&nbsp;&nbsp;25%</span>
+          </div>
+        </div>
+        <div class="progress">
+          <div data-placement="top" style="width: 18%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" role="progressbar" class="progress-bar progress-bar-striped progress-bar-danger">
+            <span class="sr-only">18%</span>
+            <span class="progress-type pull-left">&nbsp;&nbsp;R&nbsp;&nbsp;&nbsp;&nbsp;18%</span>
+          </div>
+        </div>
+        <div class="progress">
+          <div data-placement="top" style="width: 17%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="50" role="progressbar" class="progress-bar progress-bar-striped progress-bar-danger">
+            <span class="sr-only">17%</span>
+            <span class="progress-type pull-left">&nbsp;&nbsp;Tableau&nbsp;&nbsp;17%</span>
+          </div>
+        </div>
+
+        <!-- <div class="progress-meter">
+          <div style="width: 25%;" class="meter meter-left"><span class="meter-text">I suck</span></div>
+          <div style="width: 25%;" class="meter meter-left"><span class="meter-text">I know little</span></div>
+          <div style="width: 30%;" class="meter meter-right"><span class="meter-text">I'm a guru</span></div>
+          <div style="width: 20%;" class="meter meter-right"><span class="meter-text">I''m good</span></div>
+        </div> -->
+      </a>
+    </ul>
+  </div>
+
+
+
+  {% endblock %}

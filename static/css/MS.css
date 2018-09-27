@@ -1,0 +1,24 @@
+@import url(http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css);
+h1{
+  padding-left:10%
+}
+body {
+  background: #F1F3FA;
+}
+.container {
+  margin-top: 2%;
+  margin-left: 0%;
+}
+/* Profile container */
+.profile {
+  margin: 30px 0  ;
+}
+
+/* .form-control {
+  height: 15px;
+  margin-top: 15px;
+  } */
+.bottom-control {
+    height: 6%;
+    position:relative;
+    }

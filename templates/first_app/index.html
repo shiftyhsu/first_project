@@ -1,58 +1,12 @@
-{% load staticfiles %}
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>First_APP__Pracice_TWO for SQL Data import</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  </head>
-  <body>
-    <nav class="navbar navbar-default navbar-static-top">
-      <div class="container">
-        <ul class="nav navbar-nav">
-          <li><a class='navbar-brand' href="{% url 'index' %}">Shifty作品集<br>首頁</a></li>
-          <li><a class='navbar-link' href="{% url 'other' %}">KNN-Cosine電影<br>推薦可視化呈現</a></li>
-          <li><a class='navbar-link' href="{% url 'hyper' %}">供應鍊關聯式<br>分析可視化</a></li>
-          <li><a class='navbar-link'  href="{% url 'folium' %}">Folium地圖<br>可視化呈現<br>-主要市場分類</a></li>
-          <li><a class='navbar-link'  href="{% url 'form_view' %}">表格上傳</a></li>
-          <li><a class='navbar-link'  href="{% url 'register' %}">註冊</a></li>
-          <li><a class='navbar-link' href='http://127.0.0.1:8080/admin/login/?next=/admin/'>系統管理員</a></li>
-          {% if user.is_authenticated %}
-            <li><a href="{% url 'logout' %}">Logout</a></li>
-          {% else %}
-            <li><a class="navbar-link" href="{% url 'first_app:user_login' %}">Login</a></li>
-          {% endif %}
+<link href="https://fonts.googleapis.com/css?family=Bitter|Libre+Baskerville" rel="stylesheet">
+{% extends 'first_app/profile.html' %}
+{% load staticfiles %}
+{% block body_block %}
+<link rel="stylesheet" href="{% static "css/index.css" %}"/>
+<h1 class="text-center" style="font-size:51px;font-family:'Bitter', serif;color:#3498DB;text-shadow: 1px 1px #F5B041;">Hello! Welcome to Shifty's Home Page</h1>
 
-        </ul>
-      </div>
-    </nav>
-    <div class="container">
-      {% block body_block %}
-      <h1>Hello, This is Shifty's Practice for Django Level 2!!</h1>
-      <h2>Hey!Django Fighter!!!This is the data you want!</h2>
-      <img src='{% static 'images/django.jpg' %}' alt='That is really somehing!!' ><br>
-      {% if access_records %}
-      <table class="table">
-        <thead class="thead-inverse">
-          <tr>
-            <th>Site Name</th>
-            <th>Date Accessed</th>
-          </tr>
-        </thead>
-        <tbody>
-            {% for acc in access_records %}
-              <tr>
-                <td class="align-middle">{{ acc.name|upper }}</td>
-                <td class="align-middle">{{ acc.date }}</td>
-              </tr>
-            {% endfor %}
-        </tbody>
-      </table>
+  <img style='width:100%;height:100%;margin-top:15px;margin-bottom:15px;'src='{% static 'images/data.png' %}' alt='That is really somehing!!' ><br>
+  <p class="text-center" style='margin-top:10px;'><a style='margin-top:10px;margin-bottom:15px;border-color:#F5B041 ; background-color: #F5B041;font-size:20px;box-shadow: 2px 2px 5px 0 #999;'class="btn btn-primary btn-lg" href="{% url 'PF' %}" role="button">Learn More About Me</a></p>
 
-      {% else %}
-        <p>No Access Records. Table Not Created.</p>
-      {% endif %}
-      {% endblock %}
-    </div>
-  </body>
-</html>
+{% endblock %}

@@ -1,20 +1,45 @@
 <!DOCTYPE html>
-{% extends 'first_app/index.html' %}
+<link href="https://fonts.googleapis.com/css?family=Bitter|Roboto+Slab" rel="stylesheet">
+{% extends 'first_app/profile.html' %}
 {% load staticfiles %}
 {% block body_block %}
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
   <div class="container">
-    <div class="jumbotron">
+    <div class="jumbotron" style="background-color:white !important;border-style: solid;border-width: 0.5px 0.5px 0.5px 5px;border-color: #298089">
       {% if registered %}
-        <h1>Thank you for registering!</h1>
+        <h1 style="font-family:'Roboto Slab', serif;color:#F5B041;text-shadow: 0.5px 0.5px #999;">Thank you for registering!</h1>
       {% else %}
-        <h1>Register Here</h1>
-        <h3>Just fill out the form.</h3>
+        <h1 style="margin-bottom: 35px;font-family:'Roboto Slab', serif;color:#F5B041;text-shadow: 0.5px 0.5px #999;">Register Here!</h1>
+        <h2 style="margin-bottom: 20px;font-family:'Roboto Slab',serif;color:#F5B041;;text-shadow: 0.5px 0.5px #999;">Just fill out the form</h2>
 
         <form enctype="multipart/form-data" method="POST">
           {% csrf_token %}
-          {{ user_form.as_p }}
-          {{ profile_form.as_p }}
-          <input type="submit" name="" value="Register">
+          <div class="fieldWrapper" >
+            {{ user_form.username.errors }}
+            <label style="font-family:'Roboto Slab', serif;color:#1F618D;font-size:25px;" for="{{user_form.username.id_for_label}}">Username:</label>
+            {{ user_form.username }}
+          </div>
+          <div class="fieldWrapper">
+            {{ user_form.email.errors }}
+            <label style="font-family:'Roboto Slab', serif;color:#1F618D;font-size:25px;"for="{{ user_form.email.id_for_label}}">Email Address:</label>
+            {{ user_form.email }}
+          </div>
+          <div class="fieldWrapper">
+            {{ user_form.password.errors }}
+            <span style="font-family:'Roboto Slab', serif;color:#1F618D;font-size:25px;">{{ user_form.password.label_tag }}</span>
+            {{ user_form.password }}
+          </div>
+          <div class="fieldWrapper">
+            {{ profile_form.portfolio_site.errors }}
+            <span style="font-family:'Roboto Slab', serif;color:#1F618D;font-size:25px;">{{ profile_form.portfolio_site.label_tag }}</span>
+            {{ profile_form.portfolio_site }}
+          </div>
+          <div class="fieldWrapper">
+            {{ profile_form.profile_pic.errors }}
+            <span style="font-family:'Roboto Slab', serif;color:#1F618D;font-size:25px;">{{ profile_form.profile_pic.label_tag }}</span>
+            {{ profile_form.profile_pic }}
+          </div>
+          <input type="submit" style='margin-top:15px;border-color:#F1C40F; background-color: #F1C40F;font-size:20px;box-shadow: 2px 2px 5px 0 #999;'class="btn btn-primary" name="" value="Register">
         </form>
 
       {% endif %}
@@ -22,5 +47,4 @@
     </div>
 
   </div>
-
 {% endblock %}

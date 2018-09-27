@@ -31,5 +31,8 @@ url(r'^register/',views.register,name='register'),
 url(r'^login/',views.user_login,name='login'),
 url(r'^first_app/',include('first_app.urls')),
 url(r'^logout/',views.user_logout,name='logout'),
-url(r'^special/',views.register,name='special')
+url(r'^special/',views.register,name='special'),
+url(r'^foliumv2/',views.folium_Market_Select,name='MS'),
+url(r'^profile/',views.profile,name='PF'),
+url(r'^matplotlib',views.mat,name='MAT'),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

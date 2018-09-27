@@ -70,6 +70,8 @@ def index(request):
     return render(request,'first_app\index.html')
 def other(request):
     return render(request,'first_app\other.html')
+def mat(request):
+    return render(request,'first_app\matplotlib.html')
 def hyper(request):
     return render(request,'first_app\hyper.html')
 def Undex(request):
@@ -98,6 +100,27 @@ def form_name_view(request):
     return render(request,'first_app\_formpage.html',{'form':form})
 def folium (request):
     return render_to_response('first_app\_2017_m1ymap.html')
+def folium_Market_Select (request):
+    return render_to_response('first_app\Market_Select.html')
+
+def profile(request):
+    return render(request,'first_app\profile.html')
+import os
+from django.conf import settings
+from django.http import HttpResponse
+
+import os
+from django.conf import settings
+from django.http import HttpResponse
+
+def download(request, path):
+    file_path = os.path.join(settings.MEDIA_ROOT, path)
+    if os.path.exists(file_path):
+        with open(file_path, 'rb') as fh:
+            response = HttpResponse(fh.read(), content_type="application/vnd.ms-excel")
+            response['Content-Disposition'] = 'attachment; filename=CV.pdf' + os.path.basename(file_path)
+            return response
+    raise Http404
 
 
 

@@ -1,54 +1,84 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <script>L_PREFER_CANVAS = false; L_NO_TOUCH = false; L_DISABLE_3D = false;</script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet@1.2.0/dist/leaflet.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.2.0/dist/leaflet.css"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
     <link rel="stylesheet" href="https://rawgit.com/python-visualization/folium/master/folium/templates/leaflet.awesome.rotate.css"/>
-    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 00;}</style>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
     <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
-
+    <link rel="stylesheet" href="{% static "css/fl.css" %}"/>
             <style> #map_43c03caa13f14012b939b75db6c7b996 {
                 position : relative;
-                width : 80.0%;
-                height: 65.0%;
+                width : 83.0%;
+                height: 75.0%;
                 left: 9.5%;
-                top: 20%
-                bottom:10%;
+                top: 15%
+                bottom:12%;
+                margin-top: 25px;
+                margin-bottom: 25px;
                 }
             </style>
-
 </head>
 <body>
-  <nav class="navbar navbar-default navbar-static-top">
-    <div class="container">
-      <ul class="nav navbar-nav">
-        <li><a class='navbar-brand' href="{% url 'index' %}">Shifty作品集<br>首頁</a></li>
-        <li><a class='navbar-link' href="{% url 'other' %}">KNN-Cosine電影<br>推薦可視化呈現</a></li>
-        <li><a class='navbar-link' href="{% url 'hyper' %}">供應鍊關聯式<br>分析可視化</a></li>
-        <li><a class='navbar-link'  href="{% url 'folium' %}">Folium地圖<br>可視化呈現<br>-主要市場分類</a></li>
-        <li><a class='navbar-link'  href="{% url 'form_view' %}">表格上傳</a></li>
-        <li><a class='navbar-link'  href="{% url 'register' %}">註冊</a></li>
-        <li><a class='navbar-link' href='http://127.0.0.1:8080/admin/login/?next=/admin/'>系統管理員</a></li>
-        {% if user.is_authenticated %}
-          <li><a href="{% url 'logout' %}">Logout</a></li>
-        {% else %}
-          <li><a class="navbar-link" href="{% url 'first_app:user_login' %}">Login</a></li>
-        {% endif %}
+  <nav class="navbar navbar-inverse" style="background:#298089;border-color:#298089;">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+          <a class="navbar-brand" href="{% url 'index' %}"style="color:#F1C40F;background-color: #298089;text-shadow: 0px -0.8px 1px #2C3E50;">
+          <span class="glyphicon glyphicon-home"></span> Home Page</a>
+      </div>
 
-      </ul>
-    <div class="container">
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-left">
+          <li><a href="{% url "PF" %}"style="color:#F1C40F;background-color: #298089;text-shadow: 0px -0.8px 1px #2C3E50;"><span class="glyphicon glyphicon-user"></span> Profile </a></li>
+          <li><a href="https://www.linkedin.com/in/fu-ti-hsu-179a70106/"style="color:#F1C40F;background-color: #298089;text-shadow: 0px -0.8px 1px #2C3E50;"><span class="glyphicon glyphicon-cloud"></span> Linkedin </a></li>
+          <li><a href="{% url 'register' %}"style="color:#F1C40F;background-color: #298089;text-shadow: 0px -0.8px 1px #2C3E50;"><span class="glyphicon glyphicon-edit"></span> Register </a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"style="color:#F1C40F;background: #298089;text-shadow: 0px -0.8px 1px #2C3E50;"><span class="glyphicon glyphicon-signal"></span> Visualization <span class="caret"></span></a>
+            <ul class="dropdown-menu"style="color:#F1C40F;background: #298089">
+              <li><a href="{% url 'folium' %}"style="color:#F1C40F;">Folium Geomap1</a></li></br>
+              <li><a href="{% url 'MS' %}"style="color:#F1C40F;">Folium Geomap2</a></li></br>
+              <li><a href="{% url 'hyper' %}"style="color:#F1C40F;">Supply Chain</br>Analysis</a></li></br>
+              <li><a href="{% url 'other' %}"style="color:#F1C40F;">Knn-Cosine</br>Recommender</a></li></br>
+              <li><a href="{% url 'MAT' %}"style="color:#F1C40F;">Matplotlib Basic</br>Charts</a></li></br>
+            </ul>
+          </li>
+            <form class="navbar-form navbar-left">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0 bottom-control" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+              </div>
+            </form>
+        </ul>
+        {% if user.is_authenticated %}
+        <ul class="nav navbar-nav navbar-right" style='padding-top:15px;'><a href="{% url 'logout' %}"style="color:#F1C40F;background-color: #298089;text-shadow: 0px -0.8px 1px #2C3E50;"><span class='glyphicon glyphicon-log-out'></span> Logout </a></ul>
+        {% else %}
+        <ul class="nav navbar-nav navbar-right" style='padding-top:15px;'><a class="navbar-link" href="{% url 'first_app:user_login' %}"style="color:#F1C40F;background-color: #298089;text-shadow: 0px -0.8px 1px #2C3E50;"><span class='glyphicon glyphicon-log-in'></span> Login </a></ul>
+        {% endif %}
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
   </nav>
-  <div class="container"><h2>Markets' Category for Paper Production</h2></div>
-</body>
 <body>
+<body>
+     <h1 style="font-family:'Roboto Slab', serif;color:#F5B041;text-shadow: 0.5px 0.5px #999;">Global Distribution of Paper Markets</h1>
      <div style='position: fixed;
      bottom: 32px; left: 125px; width: 200px; height: 160px;
      border:2px solid grey; z-index:9999; font-size:16px;
