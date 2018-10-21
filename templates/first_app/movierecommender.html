@@ -1,0 +1,88 @@
+{% extends 'first_app/profile.html' %}
+{% load staticfiles %}
+{% block body_block %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link href="https://fonts.googleapis.com/css?family=Bitter|Roboto+Condensed" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  </head>
+  <body>
+    <div class="container" style='font-family:Microsoft JhengHei;'>
+      <div id="divLoading" style="display:none;">
+        <img  src="{% static 'images/F0949.jpg' %}" style="display: none; position:absolute;margin:0px;padding:0px;width:200%;opacity:1;" id="hideAll"></img>
+        <img id='gf' src="{% static 'images/img-loading.gif' %}" style="position:relative; margin-top:5%;margin-left:20% color:red;font-size:25px;"></img>
+      </div>
+      <div class="jumbotron" style="background-color:white !important;border-style: solid;border-width: 0.5px 0.5px 0.5px 5px;border-color: #298089;">
+        <h1 style='text-shadow: 1px 1px #999;margin-bottom:60px;color:#F5B041;font-size:53px;'>Movie Recommendation Engine</h1>
+        <FORM Name="myForm" action="/movie_recommender_list/" method="get" id="myform" style='font-size:20px;padding-bottom:60px;'>
+          <SELECT Name="color" OnChange="Buildkey(this.selectedIndex);">
+            {% for arr in Dist1 %}
+              <OPTION Value="{{arr}}">{{arr}}
+            {% endfor %}
+          </SELECT>
+          <SELECT Name="id">
+            {% for arr2 in Dist2|slice:':1' %}
+              {% for arrq in arr2 %}
+               <OPTION>{{arrq}}
+              {% endfor %}
+            {% endfor %}
+          </SELECT>
+          <input type="submit" id='sub' value="check" style='font-family:Microsoft JhengHei;font-size:25px;margin-top:10px;margin-left:25px;width:110px;height:40px;border-radius:5px;border-color:#F5B041 ; background-color: #F5B041;border-width:0;box-shadow: 2px 2px 5px 0 #999;color:white;text-shadow: 1px 1px #999;'>
+        </FORM>
+      </div>
+    </div>
+  </body>
+  <script>
+    function confirmPurchase(){
+    if(!confirm(\'Are you sure you want to delete this item?\'))
+    return false;
+    }
+    function init(){
+        var purchaseForm = document.getElementById('myform');
+        purchaseForm.onsubmit = confirmPurchase;
+      }
+    init();
+  </script>
+<script type="text/javascript">
+(function (d) {
+
+  d.getElementById('myform').onsubmit = function () {
+    if(!confirm('Are you sure you want to check this movie?'))
+    return false;
+    d.getElementById('sub').style.display = 'none';
+    d.getElementById('divLoading').style.display = 'block';
+    d.getElementById('hideAll').style.display = 'block';
+    d.getElementById('gf').style.width='auto';
+    d.getElementById('gf').style.height='auto';
+    d.getElementById('gf').style.left='20%';
+    d.getElementById('gf').style.top='0';
+  };
+}(document));
+</script>
+<SCRIPT Language="JavaScript">
+var obc={{Dist2|safe}}
+key=new Array(obc.length);
+for(qx=0;qx<key.length;qx++){
+  key[qx]=new Array(obc[qx].length);
+  for(ux=0;ux<key[qx].length;ux++){
+  key[qx][ux]=obc[qx][ux];
+  }
+}
+function Buildkey(num)
+{
+  document.myForm.id.selectedIndex=0;
+  for(ctr=0;ctr<key[num].length;ctr++){
+    document.myForm.id.options[ctr]=new Option(key[num][ctr],key[num][ctr]);
+  }
+ document.myForm.id.length=key[num].length;
+}
+</Script>
+</html>
+{% endblock %}

@@ -1,12 +1,40 @@
 <!DOCTYPE html>
 <link href="https://fonts.googleapis.com/css?family=Bitter|Libre+Baskerville" rel="stylesheet">
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 {% extends 'first_app/profile.html' %}
 {% load staticfiles %}
 {% block body_block %}
 <link rel="stylesheet" href="{% static "css/index.css" %}"/>
-<h1 class="text-center" style="font-size:51px;font-family:'Bitter', serif;color:#3498DB;text-shadow: 1px 1px #F5B041;">Hello! Welcome to Shifty's Home Page</h1>
+<div class='container'>
+  <div id="divLoading" style='display:block;'>
+    <img  rc="{% static 'images/F0949.jpg' %}" style="display:block;position:absolute;margin:0px;padding:0px;max-width:100%;max-height:100%;width:auto;height:auto;opacity:1;" id="hideAll"></img>
+    <img id='gf' src="{% static 'images/img-loading.gif' %}" style="position:relative;margin-top:5%;margin-left:20% color:red;font-size:30px;width:auto;height:auto;left:20%;top:0"></img>
+  </div>
+  <div id='h1r' style='display:none;'>
+    <h1  class="text-center" style="font-size:62px;font-family:'Bitter', serif;color:#3498DB;text-shadow: 1px 1px #F5B041;width: 100%;">Hello! Welcome to Shifty's Home Page</h1>
+    <img style='width:100%;height:100%;margin-top:15px;margin-bottom:15px;'src='{% static 'images/data.png' %}' alt='That is really somehing!!' ><br>
+    <p class="text-center" style='margin-top:10px;'><a style='margin-top:10px;margin-bottom:15px;border-color:#F5B041 ; background-color: #F5B041;font-size:20px;box-shadow: 2px 2px 5px 0 #999;'class="btn btn-primary btn-lg" href="{% url 'PF' %}" role="button"><span style="text-shadow: 1px 1px #999;">Learn More About Me</span></a></p>
+ </div>
+</div>
+  <script>
+    function init( ) {
+      _oTag = document.getElementById("divLoading");
+      gfi=document.getElementById("gf");
+      wb=document.getElementById("hideAll");
+      h1=document.getElementById("h1r");
+      h1.style.display='block';
+      _oTag.style.display = "none";
+      gf.style.display='none';
+      wb.style.display = 'none';
+       //隱藏動畫
+    }
 
-  <img style='width:100%;height:100%;margin-top:15px;margin-bottom:15px;'src='{% static 'images/data.png' %}' alt='That is really somehing!!' ><br>
-  <p class="text-center" style='margin-top:10px;'><a style='margin-top:10px;margin-bottom:15px;border-color:#F5B041 ; background-color: #F5B041;font-size:20px;box-shadow: 2px 2px 5px 0 #999;'class="btn btn-primary btn-lg" href="{% url 'PF' %}" role="button">Learn More About Me</a></p>
-
+    if (window.attachEvent) {
+      window.attachEvent('onload', init);
+    } else {
+      window.addEventListener('load', init, false);
+    }
+  </script>
 {% endblock %}

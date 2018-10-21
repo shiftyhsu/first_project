@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+<link href="https://fonts.googleapis.com/css?family=Bitter|Roboto+Slab" rel="stylesheet">
 {% extends 'first_app/profile.html' %}
 {% load staticfiles %}
 {% block body_block %}
-<h3>Bubble Chart</h3>
+<h2 style="font-family:'Roboto Slab', serif;color:#F5B041;text-shadow: 0.3px 0.3px #999;padding-bottom:15px;">Bubble Chart</h2>
 <img src='{% static 'images/foo.png' %}' alt='supplier_relation' width="497.5" height="349.141201264489"><br>
-<h3>Double-Scale Chart</h3>
+<h2 style="font-family:'Roboto Slab', serif;color:#F5B041;text-shadow: 0.3px 0.3px #999;padding-bottom:15px;padding-top:15px">Double-Scale Chart</h2>
 <img src='{% static 'images/rcode651.png' %}' alt='buyer_relation' width="497.5" height="600" style="position: relative;BOTTOM:15px;LEFT:0px"><br>
 {% endblock %}

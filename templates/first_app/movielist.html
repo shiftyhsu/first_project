@@ -1,0 +1,227 @@
+{% extends 'first_app/profile.html' %}
+{% load myextras %}
+{% load staticfiles %}
+<link href="https://fonts.googleapis.com/css?family=Bitter|Roboto+Slab" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="{% static "css/MLS.css" %}"/>
+{% block body_block %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>movie_result</title>
+  </head>
+  <body>
+    <div id="divLoading" style="display:none;">
+      <img  src="{% static 'images/F0949.jpg' %}" style="display: none; position:absolute;margin:0px;padding:0px;width:200%;opacity:1;" id="hideAll"></img>
+      <img id='gf' src="{% static 'images/img-loading.gif' %}" style="position:absolute; margin-top:5%;margin-left:20% color:red;font-size:30px;"></img>
+    </div>
+    <div class="container" id='Main' style='width:85%;position:relative;'>
+      <div class='jumbotron' style='background:white; width:100%;margin-bottom:5%;padding-bottom:0;text-shadow: 0.5px 0.5px #999;'>
+        <table class="table" style="float:left; left:0;border: solid 1px transparent;font-family:'Roboto Slab', serif; font-size:21px;width: 50%;padding-left:0">
+          <tbody  style='border: solid 1px transparent;width: 50%;left:0;margin-left:0;'>
+            <tr style='border: solid 1px transparent;margin-left:0;'>
+              <th scope="row" style='border: solid 1px transparent;width: 18%;padding-right:0;color:#545252;font-family:Microsoft JhengHei;'>Movie:&nbsp;</th>
+              <td style='border: solid 1px transparent;width: 18%;padding-right:0px;color:#3091b2;font-family:Microsoft JhengHei;'><b>{{M_Dict.Name}}</b></td>
+            </tr>
+            <!-- <tr style='border: solid 1px transparent;'>
+              <th scope="row" style='border: solid 1px transparent;'>Offsite Site:</th>
+              <td style='border: solid 1px transparent;'><a href='{{M_Dict.ADDRESS}}'>Link</a></td>
+            </tr> -->
+            <tr style='border: solid 1px transparent;margin-left:0;'>
+              <th scope="row" style='border: solid 1px transparent;padding-right:0;width: 18%;color:#545252;font-family:Microsoft JhengHei;'>Released Date:&nbsp;</th>
+              <td style='border: solid 1px transparent;width: 18%;padding-right:0;color:#3091b2;font-family:Microsoft JhengHei;'><b>{{M_Dict.DATE}}</b></td>
+            </tr>
+            <tr style='border: solid 1px transparent;margin-left:0;'>
+              <th scope="row" style='border: solid 1px transparent;width:18%;padding-right:0;color:#545252;font-family:Microsoft JhengHei;'>Genre:&nbsp;</th>
+              <td style="border: solid 1px transparent;width:18%;padding-right:0;color:#3091b2;font-family:Microsoft JhengHei;"><b>{{M_Dict.Genre|genre_adder|linebreaksbr}}</b></td>
+            </tr>
+          </tbody>
+        </table>
+        <img src='{% static "" %}{{M_Dict.MovieId|str_adder}}'style='margin-right:30px;float:right;box-shadow: 3px 3px #999;'>
+      </div>
+      	<div class="row" style="font-family:'Roboto Slab', serif;">
+      		<div class="MultiCarousel" data-items="4,4,6,6" data-slide="1" id="MultiCarousel"  data-interval="2000" >
+             <h3 style='margin-left:15px;position:relative;color:#f49e42;font-size:30px;text-shadow: 0.5px 0.5px #999;'><b><i>You may also like...</i></b></h3>
+              <div class="MultiCarousel-inner" id='myform'style='margin-top:5px;width: 100%;padding-bottom:0;'>
+                {%  for ms in lislength|lindex %}
+                  <div class="item" style='position:relative;width: 100%;padding-bottom: 0;'>
+                      <div class="pad15" style='background:#f2f2f2;opacity:0.9;font-size:25px;box-shadow: 2px 2px #999;'>
+                          <a href=" href='http://127.0.0.1:8080/movie_recommender_list/?id={{S_Dict.URL_Result|Justify:ms}}"><img title='{{S_Dict.Result|Justify:ms}}'src='{% static "" %}{{S_Dict.Movieid|Justify:ms|str_adder}}'style='height:25%;width:100%;'></a>
+                          <!-- <p  style='position:absolute;bottom:40%;text-shadow: 0.5px 0.5px #999;font-size:20px;'>{{S_Dict.Result|Justify:ms}}</p> -->
+                        <!-- <p style='position:absolute;'>{{S_Dict.ADDRESS|Justify:ms}}</p>
+                        <p style='position:absolute;'>{{S_Dict.DATE|Justify:ms}}</p> -->
+                      </div>
+                  </div>
+                {% endfor %}
+              </div>
+              <button class="btn btn-link leftLst" style='bottom:25%;'><span class="glyphicon glyphicon-chevron-left"></span></button>
+              <button class="btn btn-link rightLst" style='bottom:25%;'><span class="glyphicon glyphicon-chevron-right"></span></button>
+          </div>
+      	</div>
+        <p class="text-center" style="text-shadow: 1px 1px #999;margin-top:10px;"><a style="margin-top:10px;margin-bottom:15px;border-color:#F5B041 ; background-color: #F5B041;font-size:20px;box-shadow: 2px 2px 5px 0 #999;"class="btn btn-primary btn-lg" href="{% url 'RS' %}" role="button"><span style="text-shadow: 1px 1px #999;">Back To Movie Recommender</span></a></p>
+    </div>
+  </body>
+</html>
+<script>
+  function init( ) {
+    _oTag = document.getElementById("divLoading");
+    gfi=document.getElementById("gf");
+    gfi.style.position='absolute';
+    gfi.style.height='100%';
+    gfi.style.width = "100%";
+    _oTag.style.display = "none";  //隱藏動畫
+  }
+
+  if (window.attachEvent) {
+    window.attachEvent('onload', init);
+  } else {
+    window.addEventListener('load', init, false);
+  }
+</script>
+<script>
+$(document).ready(function () {
+  var itemsMainDiv = ('.MultiCarousel');
+  var itemsDiv = ('.MultiCarousel-inner');
+  var itemWidth = "";
+
+  $('.leftLst, .rightLst').click(function () {
+      var condition = $(this).hasClass("leftLst");
+      if (condition)
+          click(0, this);
+      else
+          click(1, this)
+  });
+
+  ResCarouselSize();
+
+
+
+
+  $(window).resize(function () {
+      ResCarouselSize();
+  });
+
+  //this function define the size of the items
+  function ResCarouselSize() {
+      var incno = 0;
+      var dataItems = ("data-items");
+      var itemClass = ('.item');
+      var id = 0;
+      var btnParentSb = '';
+      var itemsSplit = '';
+      var sampwidth = $(itemsMainDiv).width();
+      var bodyWidth = $('body').width();
+      $(itemsDiv).each(function () {
+          id = id + 1;
+          var itemNumbers = $(this).find(itemClass).length;
+          btnParentSb = $(this).parent().attr(dataItems);
+          itemsSplit = btnParentSb.split(',');
+          $(this).parent().attr("id", "MultiCarousel" + id);
+
+
+          if (bodyWidth >= 1200) {
+              incno = itemsSplit[3];
+              itemWidth = sampwidth / incno;
+          }
+          else if (bodyWidth >= 992) {
+              incno = itemsSplit[2];
+              itemWidth = sampwidth / incno;
+          }
+          else if (bodyWidth >= 768) {
+              incno = itemsSplit[1];
+              itemWidth = sampwidth / incno;
+          }
+          else {
+              incno = itemsSplit[0];
+              itemWidth = sampwidth / incno;
+          }
+          $(this).css({ 'transform': 'translateX(0px)', 'width': itemWidth * itemNumbers });
+          $(this).find(itemClass).each(function () {
+              $(this).outerWidth(itemWidth);
+          });
+
+          $(".leftLst").addClass("over");
+          $(".rightLst").removeClass("over");
+
+      });
+  }
+
+
+  //this function used to move the items
+  function ResCarousel(e, el, s) {
+      var leftBtn = ('.leftLst');
+      var rightBtn = ('.rightLst');
+      var translateXval = '';
+      var divStyle = $(el + ' ' + itemsDiv).css('transform');
+      var values = divStyle.match(/-?[\d\.]+/g);
+      var xds = Math.abs(values[4]);
+      if (e == 0) {
+          translateXval = parseInt(xds) - parseInt(itemWidth * s);
+          $(el + ' ' + rightBtn).removeClass("over");
+
+          if (translateXval <= itemWidth / 2) {
+              translateXval = 0;
+              $(el + ' ' + leftBtn).addClass("over");
+          }
+      }
+      else if (e == 1) {
+          var itemsCondition = $(el).find(itemsDiv).width() - $(el).width();
+          translateXval = parseInt(xds) + parseInt(itemWidth * s);
+          $(el + ' ' + leftBtn).removeClass("over");
+
+          if (translateXval >= itemsCondition - itemWidth / 2) {
+              translateXval = itemsCondition;
+              $(el + ' ' + rightBtn).addClass("over");
+          }
+      }
+      $(el + ' ' + itemsDiv).css('transform', 'translateX(' + -translateXval + 'px)');
+  }
+
+  //It is used to get some elements from btn
+  function click(ell, ee) {
+      var Parent = "#" + $(ee).parent().attr("id");
+      var slide = $(Parent).attr("data-slide");
+      ResCarousel(ell, Parent, slide);
+  }
+
+});
+</script>
+<script>
+  // function confirmPurchase(){
+  // if(!confirm(\'Are you sure you want to delete this item?\'))
+  // return false;
+  // }
+  // function init(){
+  //     var purchaseForm = document.getElementById('myform');
+  //     purchaseForm.click = confirmPurchase;
+  //   }
+  // init();
+</script>
+<script type="text/javascript">
+(function (d) {
+d.getElementById('myform').onclick = function () {
+  if(!confirm('Are you sure you want to leaving this page?'))
+  return false;
+  d.getElementById('sub').style.display = 'none';
+  d.getElementById('divLoading').style.display = 'block';
+  d.getElementById('hideAll').style.display = 'block';
+  d.getElementById('gf').style.width='50px';
+  d.getElementById('gf').style.height='50px;';
+};
+}(document));
+</script>
+<style>
+.MultiCarousel { float: left; overflow: hidden; padding: 15px; width: 100%; position:relative; }
+  .MultiCarousel .MultiCarousel-inner { transition: 1s ease all; float: left; }
+      .MultiCarousel .MultiCarousel-inner .item { float: left;}
+      .MultiCarousel .MultiCarousel-inner .item > div { text-align: center; padding:10px; margin:10px; background:#f1f1f1; color:#666;}
+  .MultiCarousel .leftLst, .MultiCarousel .rightLst { font-size: 20px;position:absolute; border-radius:50%;top:calc(50% - 20px);outline:0;background:transparent;color:#f2f2f2;font-size:25px;text-shadow: 0.5px 0.5px #999;list-style: none;border-color:transparent;
+    box-shadow:none;outline:0 none !important; blr:expression(this.onFocus=this.blur());}
+  .MultiCarousel .leftLst { left:0; }
+  .MultiCarousel .rightLst { right:0; }
+
+      .MultiCarousel .leftLst.over, .MultiCarousel .rightLst.over {color:transparent; pointer-events: none;outline:0;border:none;border-color:transparent;text-shadow: none;background:transparent;outline:0 none !important; blr:expression(this.onFocus=this.blur());}
+</style>
+{% endblock %}

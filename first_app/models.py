@@ -39,3 +39,8 @@ class UserProfileInfo(models.Model):
     def __str__(self):
         # Built-in attribute of django.contrib.auth.models.User !
         return self.user.username
+# class Movie_list(models.Model):
+#     movieid = models.CharField(max_length=6)
+#     name = models.CharField(max_length=100)
+#     date=  models.CharField(max_length=50)
+#     address = models.CharField(max_length=100, blank=True)

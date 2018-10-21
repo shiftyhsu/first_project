@@ -2,13 +2,17 @@ from django.shortcuts import render
 from first_app.models import Topic,Webpage,AccessRecord,SAVE
 from first_app.forms import UserForm,UserProfileInfoForm,FormName
 # Create your views here.
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-
+import pandas as pd
+import numpy as np
+import random
+import urllib
+from sklearn.neighbors import NearestNeighbors
 def register(request):
 
     registered = False
@@ -167,4 +171,49 @@ def user_login(request):
 
     else:
         #Nothing has been provided for username or password.
-        return render(request, 'first_app/login.html', {})
+        return render(request, 'first_app\login.html', {})
+###############################################################
+def recommender(request):
+    dft=pd.read_csv('first_app\MCL_R.csv',engine='python')
+    lt=['Action', 'Adventure',
+       'Animation', "Children's", 'Comedy', 'Crime', 'Documentary', 'Drama',
+       'Fantasy', 'Film-Noir', 'Horror', 'Musical', 'Mystery', 'Romance',
+       'Sci-Fi', 'Thriller', 'War', 'Western']
+    dist1=[]
+    dist2=[]
+    for i in lt:
+        lus=list(dft[dft[i]==1]['name'])
+        dist1.append(i)
+        dist2.append(lus)
+    return render(request,'first_app\movierecommender.html',context={'Dist1':dist1,'Dist2':dist2})
+def recommender_list(request):
+    dfu=pd.read_csv('first_app\MCL_R.csv',engine='python')
+    def movies_concector(MR,Name,n=16,k=5):
+        neigh = NearestNeighbors(16,'cosine')
+        neigh.fit(MR.iloc[:,23:].values)
+        top_k_distances,top_k_movies = neigh.kneighbors(MR.iloc[:,23:].values, return_distance=True)
+        Id=int(list(MR.movieid)[list(MR.name).index(Name)])
+        listid=[i for i in top_k_movies[Id-1][1:n]]
+        distance=[j for j in top_k_distances[Id-1][1:n]]
+        lst=[MR.name[r] for r in listid]
+        pb=[1/i if i!=0 else 1000 for i in distance]
+        ps=[u/sum(pb) for u in pb]
+        lstr=list(np.random.choice(lst,k,p=ps,replace=False))
+        return lstr
+    if 'id' in request.GET:
+        print(type(request.GET['id']))
+        val=request.GET['id']
+        result=movies_concector(dfu,val,n=16,k=11)
+        def genre_l(u):
+            return [dfu.columns[5:23][ix] for ix,i in enumerate(dfu[dfu.name==u].iloc[:,5:23].values.tolist()[0]) if i==1]
+        M_Dict={}
+        M_Dict.update({'Name':val,'MovieId':list(dfu[dfu.name==val]['movieid'])[0],'URL_Result':urllib.parse.quote_plus(val),'ADDRESS':list(dfu[dfu.name==val]['address'])[0],'DATE':list(dfu[dfu.name==val]['date'])[0],'Genre':genre_l(val)})
+        S_Dict={}
+        url_result=[urllib.parse.quote_plus(i) for i in result]
+        perid=[list(dfu.name).index(i) for i  in result]
+        lislength=list(range(len(result)))
+        print(perid)
+        S_Dict.update({'Result':result,'Movieid':list(dfu.loc[perid,'movieid']),'URL_Result':url_result,'ADDRESS':list(dfu.loc[perid,'address']),'DATE':list(dfu.loc[perid,'date']),'Genre':[genre_l(g) for g in result]})
+        return render_to_response('first_app\movielist.html',locals())
+    else:
+        return HttpResponseRedirect(request,"first_app\movierecommender.html")
