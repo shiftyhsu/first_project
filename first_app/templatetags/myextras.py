@@ -22,3 +22,6 @@ def genre_adder(gu):
         return gu[0]
     else:
         return '\n'.join(gu)
+@register.filter(name='strer')
+def strer(Lu):
+    return [str(i) for i in Lu]
